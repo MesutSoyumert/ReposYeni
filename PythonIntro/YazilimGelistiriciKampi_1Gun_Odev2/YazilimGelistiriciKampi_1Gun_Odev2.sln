@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "YazilimGelistiriciKampi_1Gun_Odev2", "YazilimGelistiriciKampi_1Gun_Odev2\YazilimGelistiriciKampi_1Gun_Odev2.pyproj", "{143AB5AA-5295-4D57-A8B3-0D117785436C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{143AB5AA-5295-4D57-A8B3-0D117785436C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143AB5AA-5295-4D57-A8B3-0D117785436C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B84B81D4-E127-4633-812A-1AD55087A876}
+	EndGlobalSection
+EndGlobal
