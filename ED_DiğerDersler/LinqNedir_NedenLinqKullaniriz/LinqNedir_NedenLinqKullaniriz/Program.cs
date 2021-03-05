@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqNedir_NedenLinqKullaniriz
 {
@@ -22,15 +23,36 @@ namespace LinqNedir_NedenLinqKullaniriz
                 new Product{ProductId = 5, CategoryId=2, ProductName = "Apple Telefon", QuantityPerUnit = "4 GB Ram", UnitPrice = 8000, UnitsInStock = 0},
             };
 
+            Console.WriteLine("Algoritmik------------------------------");
+
+
+            Console.WriteLine("Linq------------------------------");
+
+            var result = products.Where(p=>p.UnitPrice > 5000 && p.UnitsInStock > 3);
+
+            foreach (var product in result)
+            {
+                Console.WriteLine(product.ProductName);
+            }
+
+            GetProducts(products);
+        }
+        static List<Product> GetProducts(List<Product> products)
+        {
+            List<Product> filteredProducts = new List<Product>();
+
             foreach (var product in products)
             {
-                if (product.UnitPrice > 5000)
+                if (product.UnitPrice > 5000 && product.UnitsInStock > 3)
                 {
-                    Console.WriteLine(product.ProductName);
+                    filteredProducts.Add(product);
                 }
-                
             }
-            
+            return filteredProducts;
+        }
+        static List<Product> GetProductsLinq(List<Product> products)
+        {
+            return products.Where(p => p.UnitPrice > 5000 && p.UnitsInStock > 3).ToList();
         }
     }
     class Product
