@@ -20,7 +20,8 @@ namespace ReCapProject
             CarManager carManagerGetById = new CarManager(new InMemoryCarDal());
             int id = 1;
             carManager.GetById(id);
-
+            
+            
             InMemoryCarDal carAdd = new InMemoryCarDal();
             carAdd.Add(new Entities.Car
             {

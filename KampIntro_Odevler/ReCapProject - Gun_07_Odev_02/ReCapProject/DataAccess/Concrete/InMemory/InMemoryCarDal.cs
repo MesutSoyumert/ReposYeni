@@ -64,8 +64,9 @@ namespace ReCapProject.DataAccess.Concrete.InMemory
 
         public Car GetById(int id)
         {
-            Car carFound = _cars.SingleOrDefault(p => p.Id == id);
+            Car carFound = _cars.Find(p => p.Id == id);
             Console.WriteLine("İstenen araba hazırandı");
+            Console.WriteLine(carFound.Description);
             return carFound;
         }
     }
