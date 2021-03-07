@@ -7,7 +7,7 @@
         public static string ProductsListed = "Ürünler listelendi";
         public static string MaintenanceTime = "Sistem bakımda";
         public static string ProductCountOfCategoryError="Bir kategoride en fazla 10 ürün olabilir";
-        public static string ProductAlreadyExists="Bu isimde zaten başka bir ürün var";
+        public static string ProductNameAlreadyExists="Bu isimde zaten başka bir ürün var";
         public static string CategoryLimitExceeded="Bu kategorideki ürün sayısı limiti aşıldığı için yeni ürün eklenemez";
         public static string AuthorizationDenied="Bu işlemi yapmaya yetkiniz yok";
         public static string UserRegistered="Kullanıcı kaydı yapıldı";

@@ -11,6 +11,7 @@ namespace Business.BusinessAspects.Autofac
 {
     public class SecuredOperation : MethodInterception
     {
+        //JWT
         private string[] _roles;
         private IHttpContextAccessor _httpContextAccessor;
 

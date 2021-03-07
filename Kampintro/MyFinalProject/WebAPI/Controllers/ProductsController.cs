@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
     {
         //Loosely coupled
         //naming convention
-        // IoC Container -- Inversion of Control
+        //IoC Container -- Inversion of Control
         IProductService _productService;
 
         public ProductsController(IProductService productService)
@@ -28,17 +28,17 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            //Swagger
+            //Dependency chain --
+            var result = _productService.GetAll();
+            if (result.Success)
             {
-                // Swagger API dokümantasyonu oluşturur
-                // Burada Dependency Chain var
-                var result = _productService.GetAll();
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
+                return Ok(result);
             }
+            return BadRequest(result);
+
         }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -47,8 +47,10 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
+
         [HttpPost("add")]
         public IActionResult Add(Product product)
         {
@@ -59,5 +61,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+
     }
 }
