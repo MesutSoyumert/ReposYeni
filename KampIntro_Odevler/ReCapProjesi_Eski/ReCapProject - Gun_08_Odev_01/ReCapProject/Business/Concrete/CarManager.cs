@@ -1,6 +1,7 @@
 ﻿using ReCapProject.Business.Abstract;
 using ReCapProject.Business.ValidationRules.FluentValidation;
 using ReCapProject.Core.Aspects.Autofac.Validation;
+using ReCapProject.Core.Utilities.Business;
 using ReCapProject.Core.Utilities.Results;
 using ReCapProject.DataAccess.Abstract;
 using ReCapProject.Entities;
@@ -29,7 +30,17 @@ namespace ReCapProject.Business.Concrete
 
         public IResult Add(Car car)
         {
-            throw new NotImplementedException();
+            IResult result = BusinessRules.Run(CheckIfProductNameExists(product.ProductName),
+                CheckIfProductCountOfCategoryCorrect(product.CategoryId), CheckIfCategoryLimitExceded());
+
+            if (result != null)
+            {
+                return result;
+            }
+
+            _carDal.Add(car);
+
+            return new SuccessResult(Messages.ProductAdded);
         }
 
         public List<Car> GetAll()
@@ -80,6 +91,15 @@ namespace ReCapProject.Business.Concrete
         IDataResult<List<Car>> ICarService.GetCarsByColorId(int id)
         {
             throw new NotImplementedException();
+        }
+        private IResult CheckIfProductNameExists(string productName)
+        {
+            var result = _carDal.GetAll(p => p.ProductName == productName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.ProductNameAlreadyExists);
+            }
+            return new SuccessResult();
         }
     }
 }

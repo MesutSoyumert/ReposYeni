@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using FluentValidation;
+using ReCapProject.Core.CrossCuttingConcerns.Validation;
 using ReCapProject.Core.Utilities.Interceptors;
 using System;
 using System.Collections.Generic;
