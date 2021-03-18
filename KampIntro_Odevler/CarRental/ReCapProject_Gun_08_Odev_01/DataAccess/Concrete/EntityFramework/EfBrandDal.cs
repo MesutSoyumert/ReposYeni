@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfProductDal : IProductDal
+    public class EfBrandDal : IBrandDal
     {
-        public void Add(Product entity)
+        public void Add(Brand entity)
         {
-            using (NorthwindContext context=new NorthwindContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
@@ -22,9 +22,9 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public void Delete(Product entity)
+        public void Delete(Brand entity)
         {
-            using (NorthwindContext context = new NorthwindContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 var deletedEntity = context.Entry(entity);
                 deletedEntity.State = EntityState.Deleted;
@@ -32,26 +32,26 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public Product Get(Expression<Func<Product, bool>> filter)
+        public Brand Get(Expression<Func<Brand, bool>> filter)
         {
-            using (NorthwindContext context = new NorthwindContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
-                return context.Set<Product>().SingleOrDefault(filter);
+                return context.Set<Brand>().SingleOrDefault(filter);
             }
         }
 
-        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
+        public List<Brand> GetAll(Expression<Func<Brand, bool>> filter = null)
         {
-            using (NorthwindContext context = new NorthwindContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
-                return filter == null ? context.Set<Product>().ToList()
-                                      : context.Set<Product>().Where(filter).ToList();
+                return filter == null ? context.Set<Brand>().ToList()
+                                    : context.Set<Brand>().Where(filter).ToList();
             }
         }
 
-        public void Update(Product entity)
+        public void Update(Brand entity)
         {
-            using (NorthwindContext context = new NorthwindContext())
+            using (CarRentalContext context = new CarRentalContext())
             {
                 var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
