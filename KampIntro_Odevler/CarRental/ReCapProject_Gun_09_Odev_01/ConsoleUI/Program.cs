@@ -15,6 +15,98 @@ namespace ConsoleUI
             ColorTest();
 
             BrandTest();
+
+            //CarCrudTest();
+
+            //ColorCrudTest();
+
+            //BrandCrudTest();
+
+
+        }
+
+        private static void BrandCrudTest()
+        {
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            brandManager.Add(new Brand {
+            Name = "Saab"
+            });
+            Console.WriteLine("Saab marka eklendi");
+            
+            brandManager.Update(new Brand
+            {
+                Id = 1,
+                Name = "Mesut"
+            });
+            Console.WriteLine("1 nolu marka Mesut olarak güncellendi");
+            
+            brandManager.Delete(new Brand
+            {
+                Id = 5,
+            });
+            Console.WriteLine("5 nolu marka silindi");
+        }
+
+        private static void ColorCrudTest()
+        {
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+
+            colorManager.Add(new Color
+            {
+                Name = "Mor"
+            });
+
+            Console.WriteLine("Mor renk eklendi");
+
+            colorManager.Update(new Color
+            {
+                Id = 3,
+                Name = "Yeşil"
+            });
+
+            Console.WriteLine("3 nolu renk yeşil oldu");
+            
+            colorManager.Delete(new Color
+            {
+                Id = 5,
+            });
+
+            Console.WriteLine("5 nolu renk silindi");
+        }
+
+        private static void CarCrudTest()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+                        
+            carManager.Add(new Car {
+            ColorId = 3,
+            BrandId = 3,
+            DailyPrice = 125,
+            Description = "Eklenen yeni model",
+            ModelYear = "2021"});
+
+            Console.WriteLine("Yeni araba eklendi");
+
+            carManager.Update(new Car
+            {
+                Id = 1,
+                ColorId = 3,
+                BrandId = 3,
+                DailyPrice = 125,
+                Description = "1. araba güncellendi",
+                ModelYear = "2021"
+            });
+
+            Console.WriteLine("1. araba güncellendi");
+
+            carManager.Delete(new Car
+            {
+                Id = 1
+            });
+
+            Console.WriteLine("1. araba silindi");
+
         }
 
         private static void ColorTest()
@@ -57,7 +149,7 @@ namespace ConsoleUI
         {
             CarManager carManager = new CarManager(new EfCarDal());
 
-            var result = carManager.GetById(1);
+            var result = carManager.GetById(3);
 
             Console.WriteLine(" Car GetById Bulunan =");
             Console.WriteLine(result.Id + "/" +
