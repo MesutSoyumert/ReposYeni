@@ -10,5 +10,11 @@ namespace Business.Abstract
     public interface IColorService
     {
         List<Color> GetAll();
+        Color GetById(int id);
+        //Color Add(Color color);
+        //Color Update(Color color);
+        //Color Delete(Color color);
+
+
     }
 }
