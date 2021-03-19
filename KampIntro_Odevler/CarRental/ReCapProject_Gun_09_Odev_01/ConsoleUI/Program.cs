@@ -15,8 +15,6 @@ namespace ConsoleUI
             ColorTest();
 
             BrandTest();
-
-
         }
 
         private static void ColorTest()
@@ -106,6 +104,16 @@ namespace ConsoleUI
                     car.ModelYear);
             }
             Console.WriteLine(" Car GetCarsByColorId Bulunan sonu");
+
+            Console.WriteLine(" Car GetCarDetails Bulunan =");
+            foreach (var car in carManager.GetCarDetails())
+            {
+                Console.WriteLine(car.CarName + "/" +
+                    car.BrandName + "/" +
+                    car.ColorName + "/" +
+                    car.DailyPrice);
+            }
+            Console.WriteLine(" Car GetCarDetails Bulunan sonu");
         }
     }
 }
