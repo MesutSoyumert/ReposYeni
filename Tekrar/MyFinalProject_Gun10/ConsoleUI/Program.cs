@@ -28,7 +28,9 @@ namespace ConsoleUI
             //ProductManager productManager = new ProductManager(new InMemoryProductDal());
 
             ProductManager productManager = new ProductManager(new EfProductDal());
+            
             var result = productManager.GetProductDetails();
+            
             if (result.Success == true)
             {
                 Console.WriteLine(result.Message);
