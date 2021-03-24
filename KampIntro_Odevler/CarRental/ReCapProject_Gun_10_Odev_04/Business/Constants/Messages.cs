@@ -16,8 +16,10 @@ namespace Business.Constants
         public static string CarsDetailsListed = "Tüm arabalar detaylı olarak listelendi";
         public static string CarsByBrandIdListed = "Tüm arabalar marka bazında listelendi";
         public static string CarsByColorIdListed = "Tüm arabalar renk bazında listelendi";
-        public static string CarNameInvalid = "Araç adı en az iki karakter uzunluğunda olmalıdır";
+        public static string CarNameInvalid = "Araç adı en az üç karakter uzunluğunda olmalıdır";
         public static string CarDaiyPriceZero = "Araç günlük ücreti sıfırdan büyük olmalıdır";
+        public static string BrandNotFound = "Araç markası kayıtlı değil, tekrar girin";
+        public static string ColorNotFound = "Araç rengi kayıtlı değil, tekrar girin";
 
         public static string ColorAdded = "Renk eklendi";
         public static string ColorUpdated = "Renk güncelllendi";
@@ -31,7 +33,24 @@ namespace Business.Constants
         public static string BrandsListed = "Tüm markalar listelendi";
         public static string BrandFound = "İstenen marka bulundu";
 
-        public static string MaintenanceTime = "Sistem bakımda olduğu için işleminiz gerçekleştirilemiyor";
+        public static string UserAdded = "Kullanıcı eklendi";
+        public static string UserUpdated = "Kullanıcı güncelllendi";
+        public static string UserDeleted = "Kullanıcı silindi";
+        public static string UsersListed = "Tüm kullanıcılar listelendi";
+        public static string UserFound = "İstenen kullanıcı bulundu";
 
+        public static string CustomerAdded = "Müşteri eklendi";
+        public static string CustomerUpdated = "Müşteri güncelllendi";
+        public static string CustomerDeleted = "Müşteri silindi";
+        public static string CustomersListed = "Tüm müşteriler listelendi";
+        public static string CustomerFound = "İstenen müşteri bulundu";
+
+        public static string RentalAdded = "Kiralama eklendi";
+        public static string RentalUpdated = "Kiralama güncelllendi";
+        public static string RentalDeleted = "Kiralama silindi";
+        public static string RentalsListed = "Tüm kiralamalar listelendi";
+        public static string RentalFound = "İstenen kiralama bulundu";
+
+        public static string MaintenanceTime = "Sistem bakımda olduğu için işleminiz gerçekleştirilemiyor";
     }
 }

@@ -1,4 +1,6 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
+using Business.Constants;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -10,128 +12,166 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarTest();
+            Console.WriteLine("Araba Kiralama Projesi Geliştirici Test İşlemleri Menüsü");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine("1. Renk İşlemleri");
+            Console.WriteLine("2. Marka İşlemleri");
+            Console.WriteLine("3. Araba İşlemleri");
+            Console.WriteLine("4. Kullanıcı İşlemleri");
+            Console.WriteLine("5. Müşteri İşlemleri");
+            Console.WriteLine("6. Kiralama İşlemleri");
+            Console.WriteLine("9. Çıkış");
+            Console.WriteLine("Seçiminiz : ");
 
-            ColorTest();
-
-            BrandTest();
-
-            //CarCrudTest();
-
-            //ColorCrudTest();
-
-            //BrandCrudTest();
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    ColorTest();
+                    break;
+                case "2":
+                    BrandTest();
+                    break;
+                case "3":
+                    CarTest();
+                    break;
+                case "4":
+                    UserTest();
+                    break;
+                case "5":
+                    CustomerTest();
+                    break;
+                case "6":
+                    RentalTest();
+                    break;
+                case "9":
+                    break;
+            };
         }
-
-        private static void BrandCrudTest()
-        {
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-
-            
-            var result = brandManager.Add(new Brand
-            {
-                Name = "Saab"
-            });
-
-            Console.WriteLine(result.Message);
-
-            brandManager.Update(new Brand
-            {
-                Id = 1,
-                Name = "Mesut"
-            });
-            Console.WriteLine("1 nolu marka Mesut olarak güncellendi");
-
-            brandManager.Delete(new Brand
-            {
-                Id = 5,
-            });
-            Console.WriteLine("5 nolu marka silindi");
-        }
-
-        private static void ColorCrudTest()
-        {
-            ColorManager colorManager = new ColorManager(new EfColorDal());
-
-            colorManager.Add(new Color
-            {
-                Name = "Mor"
-            });
-
-            Console.WriteLine("Mor renk eklendi");
-
-            colorManager.Update(new Color
-            {
-                Id = 3,
-                Name = "Yeşil"
-            });
-
-            Console.WriteLine("3 nolu renk yeşil oldu");
-
-            colorManager.Delete(new Color
-            {
-                Id = 5,
-            });
-
-            Console.WriteLine("5 nolu renk silindi");
-        }
-
-        private static void CarCrudTest()
-        {
-            CarManager carManager = new CarManager(new EfCarDal());
-
-            carManager.Add(new Car
-            {
-                ColorId = 3,
-                BrandId = 3,
-                DailyPrice = 125,
-                Description = "Eklenen yeni model",
-                ModelYear = "2021"
-            });
-
-            Console.WriteLine("Yeni araba eklendi");
-
-            carManager.Update(new Car
-            {
-                Id = 1,
-                ColorId = 3,
-                BrandId = 3,
-                DailyPrice = 125,
-                Description = "1. araba güncellendi",
-                ModelYear = "2021"
-            });
-
-            Console.WriteLine("1. araba güncellendi");
-
-            carManager.Delete(new Car
-            {
-                Id = 1
-            });
-
-            Console.WriteLine("1. araba silindi");
-
-        }
-
         private static void ColorTest()
         {
+        colorAgain:
+            Console.WriteLine("Renk Test İşlemleri");
+            Console.WriteLine("-------------------");
+            Console.WriteLine("1. Renk Ekleme");
+            Console.WriteLine("2. Renk Güncelleme");
+            Console.WriteLine("3. Renk Silme");
+            Console.WriteLine("4. Renk Görüntüleme");
+            Console.WriteLine("5. Renkleri Görüntüleme");
+            Console.WriteLine("Renk İşlemini Seçiniz : ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    ColorInsert();
+                    break;
+                case "2":
+                    ColorModify();
+                    break;
+                case "3":
+                    ColorRemove();
+                    break;
+                case "4":
+                    ColorList();
+                    break;
+                case "5":
+                    ColorsList();
+                    break;
+            };
+            goto colorAgain;
+        }
+        private static void ColorInsert()
+        {
+            Console.WriteLine("Renk Adını Giriniz : ");
+
+            var colorName = Console.ReadLine();
+
             ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            var result = colorManager.GetById(1);
+            var colorInsertResult = colorManager.Add(new Color { Name = colorName });
+
+            if (colorInsertResult.Success == true)
+            {
+                Console.WriteLine(colorInsertResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(colorInsertResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void ColorModify()
+        {
+            Console.WriteLine("Renk Kodunu Giriniz : ");
+
+            var colorCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Renk Adını Giriniz : ");
+
+            var colorName = Console.ReadLine();
+
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+
+            var colorModifyResult = colorManager.Update(new Color { Id = colorCode, Name = colorName });
+
+            if (colorModifyResult.Success == true)
+            {
+                Console.WriteLine(colorModifyResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(colorModifyResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void ColorRemove()
+        {
+            Console.WriteLine("Renk Kodunu Giriniz : ");
+
+            var colorCode = Convert.ToInt32(Console.ReadLine());
+
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+
+            var colorModifyRemove = colorManager.Delete(new Color { Id = colorCode });
+
+            if (colorModifyRemove.Success == true)
+            {
+                Console.WriteLine(colorModifyRemove.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(colorModifyRemove.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void ColorList()
+        {
+            Console.WriteLine("Renk Kodunu Giriniz : ");
+
+            var colorCode = Convert.ToInt32(Console.ReadLine());
+
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+
+            var result = colorManager.GetById(colorCode);
 
             if (result.Success == true)
             {
-                Console.WriteLine(" Color GetById Bulunan =");
-                Console.WriteLine(result.Data.Id + "/" +
-                        result.Data.Name);
-                Console.WriteLine("Color GetById Bulunan sonu");
+                Console.WriteLine(result.Data.Id);
+                Console.WriteLine(result.Data.Name);
+                Console.WriteLine(result.Message);
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine(result.Message);
+                Console.ReadLine();
             }
-
-
-            Console.WriteLine(" Color GetAll Bulunan =");
+        }
+        private static void ColorsList()
+        {
+            ColorManager colorManager = new ColorManager(new EfColorDal());
 
             var resultGetAll = colorManager.GetAll();
 
@@ -142,91 +182,391 @@ namespace ConsoleUI
                     Console.WriteLine(color.Id + "/" + color.Name);
                 }
             }
-            Console.WriteLine(" Color GetAll Bulunan sonu");
+            Console.WriteLine(resultGetAll.Message);
+            Console.ReadLine();
         }
         private static void BrandTest()
         {
+        brandAgain:
+            Console.WriteLine("Marka Test İşlemleri");
+            Console.WriteLine("-------------------");
+            Console.WriteLine("1. Marka Ekleme");
+            Console.WriteLine("2. Marka Güncelleme");
+            Console.WriteLine("3. Marka Silme");
+            Console.WriteLine("4. Marka Görüntüleme");
+            Console.WriteLine("5. Markaları Görüntüleme");
+            Console.WriteLine("Marka İşlemini Seçiniz : ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    BrandInsert();
+                    break;
+                case "2":
+                    BrandModify();
+                    break;
+                case "3":
+                    BrandRemove();
+                    break;
+                case "4":
+                    BrandList();
+                    break;
+                case "5":
+                    BrandsList();
+                    break;
+            };
+            goto brandAgain;
+        }
+        private static void BrandInsert()
+        {
+            Console.WriteLine("Marka Adını Giriniz : ");
+
+            var brandName = Console.ReadLine();
+
             BrandManager brandManager = new BrandManager(new EfBrandDal());
 
-            var result = brandManager.GetById(1);
+            var brandInsertResult = brandManager.Add(new Brand { Name = brandName });
+
+            if (brandInsertResult.Success == true)
+            {
+                Console.WriteLine(brandInsertResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(brandInsertResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void BrandModify()
+        {
+            Console.WriteLine("Marka Kodunu Giriniz : ");
+
+            var brandCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Marka Adını Giriniz : ");
+
+            var brandName = Console.ReadLine();
+
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            var brandModifyResult = brandManager.Update(new Brand { Id = brandCode, Name = brandName });
+
+            if (brandModifyResult.Success == true)
+            {
+                Console.WriteLine(brandModifyResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(brandModifyResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void BrandRemove()
+        {
+            Console.WriteLine("Marka Kodunu Giriniz : ");
+
+            var brandCode = Convert.ToInt32(Console.ReadLine());
+
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            var brandRemoveResult = brandManager.Delete(new Brand { Id = brandCode });
+
+            if (brandRemoveResult.Success == true)
+            {
+                Console.WriteLine(brandRemoveResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(brandRemoveResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void BrandList()
+        {
+            Console.WriteLine("Marka Kodunu Giriniz : ");
+
+            var brandCode = Convert.ToInt32(Console.ReadLine());
+
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            var result = brandManager.GetById(brandCode);
 
             if (result.Success == true)
             {
-                Console.WriteLine(" Brand GetById Bulunan =");
-                Console.WriteLine(result.Data.Id + "/" + result.Data.Name);
-                Console.WriteLine("Brand GetById Bulunan sonu");
+                Console.WriteLine(result.Data.Id);
+                Console.WriteLine(result.Data.Name);
+                Console.WriteLine(result.Message);
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine(result.Message);
+                Console.ReadLine();
             }
+        }
+        private static void BrandsList()
+        {
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
 
             var resultGetAll = brandManager.GetAll();
 
             if (resultGetAll.Success == true)
             {
-                Console.WriteLine(" Brand GetAll Bulunan =");
                 foreach (var brand in resultGetAll.Data)
                 {
                     Console.WriteLine(brand.Id + "/" + brand.Name);
                 }
-                Console.WriteLine(" Brand GetAll Bulunan sonu");
+            }
+            Console.WriteLine(resultGetAll.Message);
+            Console.ReadLine();
+        }
+        private static void CarTest()
+        {
+        carAgain:
+            Console.WriteLine("Araba Test İşlemleri");
+            Console.WriteLine("-------------------");
+            Console.WriteLine("1. Araba Ekleme");
+            Console.WriteLine("2. Araba Güncelleme");
+            Console.WriteLine("3. Araba Silme");
+            Console.WriteLine("4. Araba Görüntüleme");
+            Console.WriteLine("5. Arabaları Görüntüleme");
+            Console.WriteLine("6. Arabaları Renk Bazında Görüntüleme");
+            Console.WriteLine("7. Arabaları Marka Bazında Görüntüleme");
+            Console.WriteLine("8. Arabaları Detaylı Görüntüleme");
+            Console.WriteLine("Araba İşlemini Seçiniz : ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    CarInsert();
+                    break;
+                case "2":
+                    CarModify();
+                    break;
+                case "3":
+                    CarRemove();
+                    break;
+                case "4":
+                    CarList();
+                    break;
+                case "5":
+                    CarsList();
+                    break;
+                case "6":
+                    CarsListByColor();
+                    break;
+                case "7":
+                    CarsListByBrand();
+                    break;
+                case "8":
+                    CarDetailsList();
+                    break;
+            };
+            goto carAgain;
+        }
+        public static void CarInsert()
+        {
+            carBrandCodeAgain:
+
+            Console.WriteLine("Marka Kodunu Giriniz : ");
+
+            int carBrandCode = Convert.ToInt32(Console.ReadLine());
+
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            var resultBrand = brandManager.GetById(carBrandCode);
+            
+            if (resultBrand.Success == false)
+            {
+                Console.WriteLine(Messages.BrandNotFound);
+                goto carBrandCodeAgain;
+            }
+
+            carColorCodeAgain:
+            Console.WriteLine("Renk Kodunu Giriniz : ");
+
+            int carColorCode = Convert.ToInt32(Console.ReadLine());
+            
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+
+            var resultColor = colorManager.GetById(carColorCode);
+            
+            if (resultColor.Success == false)
+            {
+                Console.WriteLine(Messages.ColorNotFound);
+                goto carColorCodeAgain;
+            }
+
+
+            Console.WriteLine("Model Yılını Giriniz : ");
+
+            var carModelYear = Console.ReadLine();
+
+            Console.WriteLine("Günlük Ücreti Giriniz : ");
+
+            var carDailyPrice = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Tanımı Giriniz : ");
+
+            var carDescription = Console.ReadLine();
+
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var carInsertResult = carManager.Add(new Car
+            {
+                BrandId = carBrandCode,
+                ColorId = carColorCode,
+                ModelYear = carModelYear,
+                DailyPrice = carDailyPrice,
+                Description = carDescription
+            });
+
+            if (carInsertResult.Success == true)
+            {
+                Console.WriteLine(carInsertResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(carInsertResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void CarModify()
+        {
+            Console.WriteLine("Araba Kodunu Giriniz : ");
+
+            var carCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Marka Kodunu Giriniz : ");
+
+            var carBrandCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Renk Kodunu Giriniz : ");
+
+            var carColorCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Model Yılını Giriniz : ");
+
+            var carModelYear = Console.ReadLine();
+
+            Console.WriteLine("Günlük Ücreti Giriniz : ");
+
+            var carDailyPrice = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Tanımı Giriniz : ");
+
+            var carDescription = Console.ReadLine();
+
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var carModifyResult = carManager.Update(new Car
+            {
+                Id = carCode,
+                BrandId = carBrandCode,
+                ColorId = carColorCode,
+                ModelYear = carModelYear,
+                DailyPrice = carDailyPrice,
+                Description = carDescription
+            });
+
+            if (carModifyResult.Success == true)
+            {
+                Console.WriteLine(carModifyResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(carModifyResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void CarRemove()
+        {
+            Console.WriteLine("Araba Kodunu Giriniz : ");
+
+            var carCode = Convert.ToInt32(Console.ReadLine());
+
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var carRemoveResult = carManager.Delete(new Car { Id = carCode });
+
+            if (carRemoveResult.Success == true)
+            {
+                Console.WriteLine(carRemoveResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(carRemoveResult.Message);
+                Console.ReadLine();
+            }
+        }
+
+        private static void CarList()
+        {
+            Console.WriteLine("Araba Kodunu Giriniz : ");
+
+            var carCode = Convert.ToInt32(Console.ReadLine());
+
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var result = carManager.GetById(carCode);
+
+            if (result.Success == true)
+            {
+                Console.WriteLine(result.Data.Id);
+                Console.WriteLine(result.Data.ColorId);
+                Console.WriteLine(result.Data.BrandId);
+                Console.WriteLine(result.Data.DailyPrice);
+                Console.WriteLine(result.Data.Description);
+                Console.WriteLine(result.Data.ModelYear);
+                Console.WriteLine(result.Message);
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine(result.Message);
+                Console.ReadLine();
             }
         }
-
-
-    private static void CarTest()
-    {
-        CarManager carManager = new CarManager(new EfCarDal());
-
-        var result = carManager.GetById(3);
-        if (result.Success == true)
+        private static void CarsList()
         {
-            Console.WriteLine(" Car GetById Bulunan =");
-            Console.WriteLine(result.Data.Id + "/" +
-                    result.Data.ColorId + "/" +
-                    result.Data.BrandId + "/" +
-                    result.Data.DailyPrice + "/" +
-                    result.Data.Description + "/" +
-                    result.Data.ModelYear);
-            Console.WriteLine("Car GetById Bulunan sonu");
-        }
-        else
-        {
-            Console.WriteLine(result.Message);
-        }
+            CarManager carManager = new CarManager(new EfCarDal());
 
-        var resultGetAll = carManager.GetAll();
-        if (result.Success == true)
-        {
-            Console.WriteLine(" Car GetAll Bulunan =");
-            foreach (var car in resultGetAll.Data)
+            var resultGetAll = carManager.GetAll();
+
+            if (resultGetAll.Success == true)
             {
-                Console.WriteLine(car.Id + "/" +
-                    car.ColorId + "/" +
-                    car.BrandId + "/" +
-                    car.DailyPrice + "/" +
-                    car.Description + "/" +
-                    car.ModelYear);
+                foreach (var car in resultGetAll.Data)
+                {
+                    Console.WriteLine(car.Id + "/" +
+                            car.ColorId + "/" +
+                            car.BrandId + "/" +
+                            car.DailyPrice + "/" +
+                            car.Description + "/" +
+                            car.ModelYear);
+                }
             }
-            Console.WriteLine(" Car GetAll Bulunan sonu");
+            Console.WriteLine(resultGetAll.Message);
+            Console.ReadLine();
         }
-        else
+        private static void CarsListByColor()
         {
-            Console.WriteLine(result.Message);
-        }
+            Console.WriteLine("Renk Kodunu Giriniz : ");
 
+            var colorCode = Convert.ToInt32(Console.ReadLine());
 
-            var resultGetCarsByBrandId = carManager.GetCarsByBrandId(2);
+            CarManager carManager = new CarManager(new EfCarDal());
 
-            if (resultGetCarsByBrandId.Success == true)
+            var resultGetCarsByColorId = carManager.GetCarsByColorId(colorCode);
+
+            if (resultGetCarsByColorId.Success == true)
             {
-                Console.WriteLine(" Car GetCarsByBrandId Bulunan =");
-                foreach (var car in resultGetCarsByBrandId.Data)
+                foreach (var car in resultGetCarsByColorId.Data)
                 {
                     Console.WriteLine(car.Id + "/" +
                         car.ColorId + "/" +
@@ -235,52 +575,582 @@ namespace ConsoleUI
                         car.Description + "/" +
                         car.ModelYear);
                 }
-                Console.WriteLine(" Car GetCarsByBrandId Bulunan sonu");
             }
-            else
-            {
-                Console.WriteLine(result.Message);
-            }
+            Console.WriteLine(resultGetCarsByColorId.Message);
+            Console.ReadLine();
+        }
+        private static void CarsListByBrand()
+        {
+            Console.WriteLine("Marka Kodunu Giriniz : ");
 
-                var resultGetCarsByColorId = carManager.GetCarsByColorId(2);
-                if (resultGetCarsByColorId.Success == true)
+            var brandCode = Convert.ToInt32(Console.ReadLine());
+
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var resultGetCarsByBrandId = carManager.GetCarsByBrandId(brandCode);
+
+            if (resultGetCarsByBrandId.Success == true)
+            {
+                foreach (var car in resultGetCarsByBrandId.Data)
                 {
-                    Console.WriteLine(" Car GetCarsByColorId Bulunan =");
-                    foreach (var car in resultGetCarsByColorId.Data)
-                    {
-                        Console.WriteLine(car.Id + "/" +
+                    Console.WriteLine(car.Id + "/" +
                             car.ColorId + "/" +
                             car.BrandId + "/" +
                             car.DailyPrice + "/" +
                             car.Description + "/" +
                             car.ModelYear);
-                    }
-                    Console.WriteLine(" Car GetCarsByColorId Bulunan sonu");
-                }
-                else
-                {
-                    Console.WriteLine(result.Message);
-                }
-
-                var resultGetCarDetails = carManager.GetCarDetails();
-
-                if (resultGetCarDetails.Success == true)
-                {
-                    Console.WriteLine(" Car GetCarDetails Bulunan =");
-                    foreach (var car in resultGetCarDetails.Data)
-                    {
-                        Console.WriteLine(car.CarName + "/" +
-                            car.BrandName + "/" +
-                            car.ColorName + "/" +
-                            car.DailyPrice);
-                    }
-                    Console.WriteLine(" Car GetCarDetails Bulunan sonu");
-                }
-                else
-                {
-                    Console.WriteLine(result.Message);
                 }
             }
+            Console.WriteLine(resultGetCarsByBrandId.Message);
+            Console.ReadLine();
+        }
+        private static void CarDetailsList()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var resultGetCarDetails = carManager.GetCarDetails();
+
+            if (resultGetCarDetails.Success == true)
+            {
+                foreach (var car in resultGetCarDetails.Data)
+                {
+                    Console.WriteLine(car.CarName + "/" +
+                                      car.BrandName + "/" +
+                                      car.ColorName + "/" +
+                                      car.DailyPrice);
+                }
+            }
+            Console.WriteLine(resultGetCarDetails.Message);
+            Console.ReadLine();
+        }
+        private static void UserTest()
+        {
+        userAgain:
+            Console.WriteLine("Kullanıcı Test İşlemleri");
+            Console.WriteLine("-------------------");
+            Console.WriteLine("1. Kullanıcı Ekleme");
+            Console.WriteLine("2. Kullanıcı Güncelleme");
+            Console.WriteLine("3. Kullanıcı Silme");
+            Console.WriteLine("4. Kullanıcı Görüntüleme");
+            Console.WriteLine("5. Kullanıcıları Görüntüleme");
+            Console.WriteLine("Kullanıcı İşlemini Seçiniz : ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    UserInsert();
+                    break;
+                case "2":
+                    UserModify();
+                    break;
+                case "3":
+                    UserRemove();
+                    break;
+                case "4":
+                    UserList();
+                    break;
+                case "5":
+                    UsersList();
+                    break;
+            };
+            goto userAgain;
+        }
+        private static void UserInsert()
+        {
+            Console.WriteLine("Kullanıcı Adını Giriniz : ");
+
+            var userFirstName = Console.ReadLine();
+
+            Console.WriteLine("Kullanıcı Soyadını Giriniz : ");
+
+            var userLastName = Console.ReadLine();
+
+            Console.WriteLine("Kullanıcı E-postasını Giriniz : ");
+
+            var userEmail = Console.ReadLine();
+
+            Console.WriteLine("Kullanıcı Parolasını Giriniz : ");
+
+            var userPassword = Console.ReadLine();
+
+
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var userInsertResult = userManager.Add(new User
+            {
+                FirstName = userFirstName,
+                LastName = userLastName,
+                Email = userEmail,
+                Password = userPassword
+            });
+
+            if (userInsertResult.Success == true)
+            {
+                Console.WriteLine(userInsertResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(userInsertResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void UserModify()
+        {
+
+            Console.WriteLine("Kullanıcı Kodunu Giriniz : ");
+
+            var userCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kullanıcı Adını Giriniz : ");
+
+            var userFirstName = Console.ReadLine();
+
+            Console.WriteLine("Kullanıcı Soyadını Giriniz : ");
+
+            var userLastName = Console.ReadLine();
+
+            Console.WriteLine("Kullanıcı E-postasını Giriniz : ");
+
+            var userEmail = Console.ReadLine();
+
+            Console.WriteLine("Kullanıcı Parolasını Giriniz : ");
+
+            var userPassword = Console.ReadLine();
+
+
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var userModifyResult = userManager.Update(new User
+            {
+                Id = userCode,
+                FirstName = userFirstName,
+                LastName = userLastName,
+                Email = userEmail,
+                Password = userPassword
+            });
+
+            if (userModifyResult.Success == true)
+            {
+                Console.WriteLine(userModifyResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(userModifyResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void UserRemove()
+        {
+            Console.WriteLine("Kullanıcı Kodunu Giriniz : ");
+
+            var userCode = Convert.ToInt32(Console.ReadLine());
+
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var userRemoveResult = userManager.Delete(new User { Id = userCode });
+
+            if (userRemoveResult.Success == true)
+            {
+                Console.WriteLine(userRemoveResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(userRemoveResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void UserList()
+        {
+            Console.WriteLine("Kullanıcı Kodunu Giriniz : ");
+
+            var userCode = Convert.ToInt32(Console.ReadLine());
+
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var result = userManager.GetById(userCode);
+
+            if (result.Success == true)
+            {
+                Console.WriteLine(result.Data.Id);
+                Console.WriteLine(result.Data.FirstName);
+                Console.WriteLine(result.Data.LastName);
+                Console.WriteLine(result.Data.Email);
+                Console.WriteLine(result.Data.Password);
+                Console.WriteLine(result.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void UsersList()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var resultGetAll = userManager.GetAll();
+
+            if (resultGetAll.Success == true)
+            {
+                foreach (var user in resultGetAll.Data)
+                {
+                    Console.WriteLine(user.Id + "/" + user.FirstName + "/" + user.LastName + "/" + user.Email + "/" + user.Password);
+                }
+            }
+            Console.WriteLine(resultGetAll.Message);
+            Console.ReadLine();
+        }
+        private static void CustomerTest()
+        {
+        customerAgain:
+            Console.WriteLine("Müşteri Test İşlemleri");
+            Console.WriteLine("-------------------");
+            Console.WriteLine("1. Müşteri Ekleme");
+            Console.WriteLine("2. Müşteri Güncelleme");
+            Console.WriteLine("3. Müşteri Silme");
+            Console.WriteLine("4. Müşteri Görüntüleme");
+            Console.WriteLine("5. Müşterileri Görüntüleme");
+            Console.WriteLine("Müşteri İşlemini Seçiniz : ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    CustomerInsert();
+                    break;
+                case "2":
+                    CustomerModify();
+                    break;
+                case "3":
+                    CustomerRemove();
+                    break;
+                case "4":
+                    CustomerList();
+                    break;
+                case "5":
+                    CustomersList();
+                    break;
+            };
+            goto customerAgain;
+        }
+        private static void CustomerInsert()
+        {
+            Console.WriteLine("Müşteri Kullanıcı Kodunu Giriniz : ");
+
+            var customerUserId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Müşteri Şirket Adını Giriniz : ");
+
+            var customerCompanyName = Console.ReadLine();
+
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var customerInsertResult = customerManager.Add(new Customer
+            {
+                UserId = customerUserId,
+                CompanyName = customerCompanyName
+            });
+
+            if (customerInsertResult.Success == true)
+            {
+                Console.WriteLine(customerInsertResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(customerInsertResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void CustomerModify()
+        {
+
+            Console.WriteLine("Müşteri Kodunu Giriniz : ");
+
+            var customerCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Müşteri Kullanıcı Kodunu Giriniz : ");
+
+            var customerUserId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Müşteri Şirket Adını Giriniz : ");
+
+            var customerCompanyName = Console.ReadLine();
+
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var customerModifyResult = customerManager.Update(new Customer
+            {
+                Id = customerCode,
+                UserId = customerUserId,
+                CompanyName = customerCompanyName
+            });
+
+            if (customerModifyResult.Success == true)
+            {
+                Console.WriteLine(customerModifyResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(customerModifyResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void CustomerRemove()
+        {
+            Console.WriteLine("Müşteri Kodunu Giriniz : ");
+
+            var customerCode = Convert.ToInt32(Console.ReadLine());
+
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var customerRemoveResult = customerManager.Delete(new Customer { Id = customerCode });
+
+            if (customerRemoveResult.Success == true)
+            {
+                Console.WriteLine(customerRemoveResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(customerRemoveResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void CustomerList()
+        {
+            Console.WriteLine("Müşteri Kodunu Giriniz : ");
+
+            var customerCode = Convert.ToInt32(Console.ReadLine());
+
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var result = customerManager.GetById(customerCode);
+
+            if (result.Success == true)
+            {
+                Console.WriteLine(result.Data.Id);
+                Console.WriteLine(result.Data.UserId);
+                Console.WriteLine(result.Data.CompanyName);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void CustomersList()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var resultGetAll = customerManager.GetAll();
+
+            if (resultGetAll.Success == true)
+            {
+                foreach (var customer in resultGetAll.Data)
+                {
+                    Console.WriteLine(customer.Id + "/" + customer.UserId + "/" + customer.CompanyName);
+                }
+            }
+            Console.WriteLine(resultGetAll.Message);
+            Console.ReadLine();
+        }
+        private static void RentalTest()
+        {
+        rentalAgain:
+            Console.WriteLine("Kiralama Test İşlemleri");
+            Console.WriteLine("-------------------");
+            Console.WriteLine("1. Kiralama Ekleme");
+            Console.WriteLine("2. Kiralama Güncelleme");
+            Console.WriteLine("3. Kiralama Silme");
+            Console.WriteLine("4. Kiralama Görüntüleme");
+            Console.WriteLine("5. Kiralamaları Görüntüleme");
+            Console.WriteLine("Kiralama İşlemini Seçiniz : ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    RentalInsert();
+                    break;
+                case "2":
+                    RentalModify();
+                    break;
+                case "3":
+                    RentalRemove();
+                    break;
+                case "4":
+                    RentalList();
+                    break;
+                case "5":
+                    RentalsList();
+                    break;
+            };
+            goto rentalAgain;
+        }
+        private static void RentalInsert()
+        {
+            Console.WriteLine("Kiralanacak Araba Kodunu Giriniz : ");
+
+            var rentalCarId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralayacak Müşteri Kodunu Giriniz : ");
+
+            var rentalCustomerId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Başlangıç Tarihinin Gününü Giriniz (GG) : ");
+
+            var customerRentDateDay = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Başlangıç Tarihinin Ayını Giriniz (AA) : ");
+
+            var customerRentDateMonth = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Başlangıç Tarihinin Yılını Giriniz (YYYY) : ");
+
+            var customerRentDateYear = Convert.ToInt32(Console.ReadLine());
+
+            var customerRentDate = new DateTime(customerRentDateYear, customerRentDateMonth, customerRentDateDay, 0, 0, 0);
+
+            Nullable<DateTime> customerReturnDate = null;
+            customerReturnDate = new DateTime();
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            var rentalInsertResult = rentalManager.Add(new Rental
+            {
+                CarId = rentalCarId,
+                CustomerId = rentalCustomerId,
+                RentDate = customerRentDate,
+                ReturnDate = (DateTime)customerReturnDate
+            });
+
+            if (rentalInsertResult.Success == true)
+            {
+                Console.WriteLine(rentalInsertResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(rentalInsertResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void RentalModify()
+        {
+            Console.WriteLine("Kiralama Kodunu Giriniz : ");
+
+            var rentalCode = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralanacak Araba Kodunu Giriniz : ");
+
+            var rentalCarId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralayacak Müşteri Kodunu Giriniz : ");
+
+            var rentalCustomerId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Başlangıç Tarihinin Gününü Giriniz (GG) : ");
+
+            var customerRentDateDay = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Başlangıç Tarihinin Ayını Giriniz (AA) : ");
+
+            var customerRentDateMonth = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Başlangıç Tarihinin Yılını Giriniz (YYYY) : ");
+
+            var customerRentDateYear = Convert.ToInt32(Console.ReadLine());
+
+            var customerRentDate = new DateTime(customerRentDateYear, customerRentDateMonth, customerRentDateDay, 0, 0, 0);
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            var rentalModifyResult = rentalManager.Update(new Rental
+            {
+                Id = rentalCode,
+                CarId = rentalCarId,
+                CustomerId = rentalCustomerId,
+                RentDate = customerRentDate
+            });
+
+            if (rentalModifyResult.Success == true)
+            {
+                Console.WriteLine(rentalModifyResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(rentalModifyResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void RentalRemove()
+        {
+            Console.WriteLine("Kiralama Kodunu Giriniz : ");
+
+            var rentalCode = Convert.ToInt32(Console.ReadLine());
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            var rentalRemoveResult = rentalManager.Delete(new Rental { Id = rentalCode });
+
+            if (rentalRemoveResult.Success == true)
+            {
+                Console.WriteLine(rentalRemoveResult.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(rentalRemoveResult.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void RentalList()
+        {
+            Console.WriteLine("Kiralama Kodunu Giriniz : ");
+
+            var rentalCode = Convert.ToInt32(Console.ReadLine());
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            var result = rentalManager.GetById(rentalCode);
+
+            if (result.Success == true)
+            {
+                Console.WriteLine(result.Data.Id);
+                Console.WriteLine(result.Data.CarId);
+                Console.WriteLine(result.Data.CustomerId);
+                Console.WriteLine(result.Data.RentDate);
+                Console.WriteLine(result.Data.ReturnDate);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+                Console.ReadLine();
+            }
+        }
+        private static void RentalsList()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            var resultGetAll = rentalManager.GetAll();
+
+            if (resultGetAll.Success == true)
+            {
+                foreach (var rental in resultGetAll.Data)
+                {
+                    Console.WriteLine(rental.Id + "/" + rental.CarId + "/" + rental.CustomerId + "/" + rental.RentDate + "/" + rental.ReturnDate);
+                }
+            }
+            Console.WriteLine(resultGetAll.Message);
+            Console.ReadLine();
+        }
     }
 }
 

@@ -41,7 +41,6 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(p => p.Id == id), Messages.BrandFound);
         }
-
         public IResult Update(Brand brand)
         {
             _brandDal.Update(brand);

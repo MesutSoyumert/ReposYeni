@@ -6,7 +6,7 @@ namespace Metotlar
 {
     class Urun
     {
-        // Aşağıdakilerden her biri property'dir
+        //Property - özellik
         public int Id { get; set; }
         public string Adi { get; set; }
         public double Fiyati { get; set; }

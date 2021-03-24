@@ -6,35 +6,38 @@ namespace Donguler
     {
         static void Main(string[] args)
         {
-            // string kurs1 = "Yazılım Geliştirici Yetiştirme Kampı";
-            // string kurs2 = "Programlamaya başlangıç için temel kurs";
-            // string kurs3 = "Java Kursu";
-            // string kurs4 = "Python Kursu";
-            // string kurs4 = "C++ Kursu";
+            string kurs1 = "Yazılım Geliştirici Yetiştirme Kampı";
+            string kurs2 = "Programlamaya başlangıç için temel kurs";
+            string kurs3 = "Java";
+            string kurs4 = "Python";
+            string kurs5 = "C++";
 
-            // array - dizi olarak tanımlanabilir. kurslar isimli array içine
+            Console.WriteLine(kurs1);
+            Console.WriteLine(kurs2);
+            Console.WriteLine(kurs3);
+            Console.WriteLine(kurs4);
+            Console.WriteLine(kurs5);
 
-            // string[] kurslar = kurslarigetir;
-            string[] kurslar = new string[] { "Yazılım Geliştirici Yetiştirme Kampı",
-                                              "Programlamaya başlangıç için temel kurs",
-                                              "Java Kursu",
-                                              "Python Kursu", 
-                                              "C++ Kursu"};
+            //array - dizi
 
-            for (int i = 0; i <kurslar.Length; i++)
+            string[] kurslar = new string[] { kurs1, 
+                "Programlamaya başlangıç için temel kurs", 
+                "Java", "Python", "C#" };
+
+
+            for (int i = 0; i<kurslar.Length; i++)
             {
                 Console.WriteLine(kurslar[i]);
             }
 
-            Console.WriteLine("for döngüsü bitti");
-                        
-            // Array için foreach daha kolay
+            Console.WriteLine("For bitti");
+
             foreach (string kurs in kurslar)
             {
-                Console.WriteLine(kurs); 
+                Console.WriteLine(kurs);
             }
 
-            Console.WriteLine("Sayfa sonu - footer göster");
+            Console.WriteLine("sayfa sonu - footer");
         }
     }
 }
