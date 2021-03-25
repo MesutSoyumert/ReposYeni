@@ -379,11 +379,16 @@ namespace ConsoleUI
 
             var resultBrand = brandManager.GetById(carBrandCode);
             
-            if (resultBrand.Success == false)
+            if (resultBrand.Success == false || resultBrand.Data == null)
             {
                 Console.WriteLine(Messages.BrandNotFound);
                 goto carBrandCodeAgain;
             }
+
+            Console.WriteLine("Araba Markası :");
+            Console.WriteLine(resultBrand.Data.Name);
+            Console.ReadLine();
+
 
             carColorCodeAgain:
             Console.WriteLine("Renk Kodunu Giriniz : ");
@@ -394,12 +399,15 @@ namespace ConsoleUI
 
             var resultColor = colorManager.GetById(carColorCode);
             
-            if (resultColor.Success == false)
+            if (resultColor.Success == false || resultColor.Data == null)
             {
                 Console.WriteLine(Messages.ColorNotFound);
                 goto carColorCodeAgain;
             }
 
+            Console.WriteLine("Araba Rengi :");
+            Console.WriteLine(resultColor.Data.Name);
+            Console.ReadLine();
 
             Console.WriteLine("Model Yılını Giriniz : ");
 
@@ -413,6 +421,8 @@ namespace ConsoleUI
 
             var carDescription = Console.ReadLine();
 
+            var carIsRented = false;
+
             CarManager carManager = new CarManager(new EfCarDal());
 
             var carInsertResult = carManager.Add(new Car
@@ -421,7 +431,8 @@ namespace ConsoleUI
                 ColorId = carColorCode,
                 ModelYear = carModelYear,
                 DailyPrice = carDailyPrice,
-                Description = carDescription
+                Description = carDescription,
+                IsRented = carIsRented
             });
 
             if (carInsertResult.Success == true)
@@ -441,13 +452,45 @@ namespace ConsoleUI
 
             var carCode = Convert.ToInt32(Console.ReadLine());
 
+        carBrandCodeAgain:
+
             Console.WriteLine("Marka Kodunu Giriniz : ");
 
-            var carBrandCode = Convert.ToInt32(Console.ReadLine());
+            int carBrandCode = Convert.ToInt32(Console.ReadLine());
 
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            var resultBrand = brandManager.GetById(carBrandCode);
+
+            if (resultBrand.Success == false || resultBrand.Data == null)
+            {
+                Console.WriteLine(Messages.BrandNotFound);
+                goto carBrandCodeAgain;
+            }
+
+            Console.WriteLine("Araba Markası :");
+            Console.WriteLine(resultBrand.Data.Name);
+            Console.ReadLine();
+
+
+        carColorCodeAgain:
             Console.WriteLine("Renk Kodunu Giriniz : ");
 
-            var carColorCode = Convert.ToInt32(Console.ReadLine());
+            int carColorCode = Convert.ToInt32(Console.ReadLine());
+
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+
+            var resultColor = colorManager.GetById(carColorCode);
+
+            if (resultColor.Success == false || resultColor.Data == null)
+            {
+                Console.WriteLine(Messages.ColorNotFound);
+                goto carColorCodeAgain;
+            }
+
+            Console.WriteLine("Araba Rengi :");
+            Console.WriteLine(resultColor.Data.Name);
+            Console.ReadLine();
 
             Console.WriteLine("Model Yılını Giriniz : ");
 
@@ -458,6 +501,26 @@ namespace ConsoleUI
             var carDailyPrice = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Tanımı Giriniz : ");
+
+            var carIsRentedInput = Console.ReadLine();
+
+            carIsRentedInputAgain:
+
+            Console.WriteLine("Araba Kirada mı? (Evet/Hayır) : ");
+
+            bool carIsRented = true;
+
+            if (carIsRentedInput == "Evet")
+            {
+                carIsRented = true;
+            }
+            else if (carIsRentedInput == "Hayır")
+            {
+                carIsRented = false;
+            }
+            else Console.WriteLine(Messages.YesNoInputInvalid);
+                 Console.ReadLine();
+                 goto carIsRentedInputAgain;
 
             var carDescription = Console.ReadLine();
 
@@ -470,7 +533,8 @@ namespace ConsoleUI
                 ColorId = carColorCode,
                 ModelYear = carModelYear,
                 DailyPrice = carDailyPrice,
-                Description = carDescription
+                Description = carDescription,
+                IsRented = carIsRented
             });
 
             if (carModifyResult.Success == true)
@@ -516,7 +580,7 @@ namespace ConsoleUI
 
             var result = carManager.GetById(carCode);
 
-            if (result.Success == true)
+            if (result.Success == true && result.Data != null)
             {
                 Console.WriteLine(result.Data.Id);
                 Console.WriteLine(result.Data.ColorId);
@@ -524,12 +588,13 @@ namespace ConsoleUI
                 Console.WriteLine(result.Data.DailyPrice);
                 Console.WriteLine(result.Data.Description);
                 Console.WriteLine(result.Data.ModelYear);
+                Console.WriteLine(result.Data.IsRented);
                 Console.WriteLine(result.Message);
                 Console.ReadLine();
             }
             else
             {
-                Console.WriteLine(result.Message);
+                Console.WriteLine(Messages.CarNotFound);
                 Console.ReadLine();
             }
         }
@@ -548,7 +613,9 @@ namespace ConsoleUI
                             car.BrandId + "/" +
                             car.DailyPrice + "/" +
                             car.Description + "/" +
-                            car.ModelYear);
+                            car.ModelYear + "/" +
+                            car.IsRented
+                            );
                 }
             }
             Console.WriteLine(resultGetAll.Message);
@@ -573,7 +640,8 @@ namespace ConsoleUI
                         car.BrandId + "/" +
                         car.DailyPrice + "/" +
                         car.Description + "/" +
-                        car.ModelYear);
+                        car.ModelYear + "/" +
+                        car.IsRented);
                 }
             }
             Console.WriteLine(resultGetCarsByColorId.Message);
@@ -598,7 +666,8 @@ namespace ConsoleUI
                             car.BrandId + "/" +
                             car.DailyPrice + "/" +
                             car.Description + "/" +
-                            car.ModelYear);
+                            car.ModelYear + "/" +
+                            car.IsRented);
                 }
             }
             Console.WriteLine(resultGetCarsByBrandId.Message);
@@ -617,7 +686,8 @@ namespace ConsoleUI
                     Console.WriteLine(car.CarName + "/" +
                                       car.BrandName + "/" +
                                       car.ColorName + "/" +
-                                      car.DailyPrice);
+                                      car.DailyPrice + "/" +
+                                      car.IsRented);
                 }
             }
             Console.WriteLine(resultGetCarDetails.Message);
@@ -772,7 +842,7 @@ namespace ConsoleUI
 
             var result = userManager.GetById(userCode);
 
-            if (result.Success == true)
+            if (result.Success == true && result.Data != null)
             {
                 Console.WriteLine(result.Data.Id);
                 Console.WriteLine(result.Data.FirstName);
@@ -784,7 +854,7 @@ namespace ConsoleUI
             }
             else
             {
-                Console.WriteLine(result.Message);
+                Console.WriteLine(Messages.UserNotFound);
                 Console.ReadLine();
             }
         }
@@ -838,9 +908,24 @@ namespace ConsoleUI
         }
         private static void CustomerInsert()
         {
+        customerUserCodeAgain:
             Console.WriteLine("Müşteri Kullanıcı Kodunu Giriniz : ");
 
-            var customerUserId = Convert.ToInt32(Console.ReadLine());
+            int customerUserId = Convert.ToInt32(Console.ReadLine());
+
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var resultUser = userManager.GetById(customerUserId);
+
+            if (resultUser.Success == false || resultUser.Data == null)
+            {
+                Console.WriteLine(Messages.UserNotFound);
+                goto customerUserCodeAgain;
+            }
+
+            Console.WriteLine("Kullanıcı Adı, Soyadı :");
+            Console.WriteLine(resultUser.Data.FirstName + " " + resultUser.Data.LastName);
+            Console.ReadLine();
 
             Console.WriteLine("Müşteri Şirket Adını Giriniz : ");
 
@@ -872,9 +957,20 @@ namespace ConsoleUI
 
             var customerCode = Convert.ToInt32(Console.ReadLine());
 
+        customerUserCodeAgain:
             Console.WriteLine("Müşteri Kullanıcı Kodunu Giriniz : ");
 
-            var customerUserId = Convert.ToInt32(Console.ReadLine());
+            int customerUserId = Convert.ToInt32(Console.ReadLine());
+
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var resultUser = userManager.GetById(customerUserId);
+
+            if (resultUser.Success == false || resultUser.Data == null)
+            {
+                Console.WriteLine(Messages.UserNotFound);
+                goto customerUserCodeAgain;
+            }
 
             Console.WriteLine("Müşteri Şirket Adını Giriniz : ");
 
@@ -931,7 +1027,7 @@ namespace ConsoleUI
 
             var result = customerManager.GetById(customerCode);
 
-            if (result.Success == true)
+            if (result.Success == true && result.Data != null)
             {
                 Console.WriteLine(result.Data.Id);
                 Console.WriteLine(result.Data.UserId);
@@ -940,7 +1036,7 @@ namespace ConsoleUI
             }
             else
             {
-                Console.WriteLine(result.Message);
+                Console.WriteLine(Messages.CustomerNotFound);
                 Console.ReadLine();
             }
         }
@@ -994,45 +1090,112 @@ namespace ConsoleUI
         }
         private static void RentalInsert()
         {
+            rentalCarIdAgain:
             Console.WriteLine("Kiralanacak Araba Kodunu Giriniz : ");
 
             var rentalCarId = Convert.ToInt32(Console.ReadLine());
 
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var resultCarGetById = carManager.GetById(rentalCarId);
+
+            if (resultCarGetById.Success == true && resultCarGetById.Data != null)
+            {
+                Console.WriteLine(resultCarGetById.Data.Id);
+                Console.WriteLine(resultCarGetById.Data.ColorId);
+                Console.WriteLine(resultCarGetById.Data.BrandId);
+                Console.WriteLine(resultCarGetById.Data.DailyPrice);
+                Console.WriteLine(resultCarGetById.Data.Description);
+                Console.WriteLine(resultCarGetById.Data.ModelYear);
+                Console.WriteLine(resultCarGetById.Data.IsRented);
+                Console.WriteLine(resultCarGetById.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(Messages.CarNotFound);
+                Console.ReadLine();
+                goto rentalCarIdAgain;
+            }
+            if (resultCarGetById.Data.IsRented == true)
+            {
+                Console.WriteLine(Messages.RentalCarIsAlreadyRented);
+                Console.ReadLine();
+                goto rentalCarIdAgain;
+            }
+
+        rentalCustomerIdAgain:
+
             Console.WriteLine("Kiralayacak Müşteri Kodunu Giriniz : ");
 
             var rentalCustomerId = Convert.ToInt32(Console.ReadLine());
+            
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var resultCustomerGetById = customerManager.GetById(rentalCustomerId);
+
+            if (resultCustomerGetById.Success == true && resultCustomerGetById.Data != null)
+            {
+                Console.WriteLine(resultCustomerGetById.Data.Id);
+                Console.WriteLine(resultCustomerGetById.Data.UserId);
+                Console.WriteLine(resultCustomerGetById.Data.CompanyName);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(Messages.CustomerNotFound);
+                Console.ReadLine();
+                goto rentalCustomerIdAgain;
+            }
 
             Console.WriteLine("Kiralama Başlangıç Tarihinin Gününü Giriniz (GG) : ");
 
-            var customerRentDateDay = Convert.ToInt32(Console.ReadLine());
+            var rentalRentDateDay = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Kiralama Başlangıç Tarihinin Ayını Giriniz (AA) : ");
 
-            var customerRentDateMonth = Convert.ToInt32(Console.ReadLine());
+            var rentalRentDateMonth = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Kiralama Başlangıç Tarihinin Yılını Giriniz (YYYY) : ");
 
-            var customerRentDateYear = Convert.ToInt32(Console.ReadLine());
+            var rentalRentDateYear = Convert.ToInt32(Console.ReadLine());
 
-            var customerRentDate = new DateTime(customerRentDateYear, customerRentDateMonth, customerRentDateDay, 0, 0, 0);
+            var rentalRentDate = new DateTime(rentalRentDateYear, rentalRentDateMonth, rentalRentDateDay, 0, 0, 0);
 
-            Nullable<DateTime> customerReturnDate = null;
-            customerReturnDate = new DateTime();
+
+            DateTime rentalReturnDate = new DateTime() {  };
 
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
 
             var rentalInsertResult = rentalManager.Add(new Rental
             {
                 CarId = rentalCarId,
                 CustomerId = rentalCustomerId,
-                RentDate = customerRentDate,
-                ReturnDate = (DateTime)customerReturnDate
+                RentDate = rentalRentDate,
+                ReturnDate = rentalReturnDate
             });
 
             if (rentalInsertResult.Success == true)
             {
                 Console.WriteLine(rentalInsertResult.Message);
                 Console.ReadLine();
+
+                CarManager carModifyManager = new CarManager(new EfCarDal());
+                Console.WriteLine("Car Rented Update");
+                Console.WriteLine(resultCarGetById.Data.Id);
+
+                var carModifyResult = carModifyManager.Update(new Car
+                {
+                    Id = resultCarGetById.Data.Id,
+                    BrandId = resultCarGetById.Data.BrandId,
+                    ColorId = resultCarGetById.Data.ColorId,
+                    ModelYear = resultCarGetById.Data.ModelYear,
+                    DailyPrice = resultCarGetById.Data.DailyPrice,
+                    Description = resultCarGetById.Data.Description,
+                    IsRented = true
+                });
+                //transaction mamangement eklendiği zaman carModify result handle edilecek
             }
             else
             {
@@ -1046,27 +1209,84 @@ namespace ConsoleUI
 
             var rentalCode = Convert.ToInt32(Console.ReadLine());
 
+        rentalCarIdAgain:
             Console.WriteLine("Kiralanacak Araba Kodunu Giriniz : ");
 
             var rentalCarId = Convert.ToInt32(Console.ReadLine());
+
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            var resultCarGetById = carManager.GetById(rentalCarId);
+
+            if (resultCarGetById.Success == true && resultCarGetById.Data != null)
+            {
+                Console.WriteLine(resultCarGetById.Data.Id);
+                Console.WriteLine(resultCarGetById.Data.ColorId);
+                Console.WriteLine(resultCarGetById.Data.BrandId);
+                Console.WriteLine(resultCarGetById.Data.DailyPrice);
+                Console.WriteLine(resultCarGetById.Data.Description);
+                Console.WriteLine(resultCarGetById.Data.ModelYear);
+                Console.WriteLine(resultCarGetById.Message);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(Messages.CarNotFound);
+                Console.ReadLine();
+                goto rentalCarIdAgain;
+            }
+
+        rentalCustomerIdAgain:
 
             Console.WriteLine("Kiralayacak Müşteri Kodunu Giriniz : ");
 
             var rentalCustomerId = Convert.ToInt32(Console.ReadLine());
 
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var resultCustomerGetById = customerManager.GetById(rentalCustomerId);
+
+            if (resultCustomerGetById.Success == true && resultCustomerGetById.Data != null)
+            {
+                Console.WriteLine(resultCustomerGetById.Data.Id);
+                Console.WriteLine(resultCustomerGetById.Data.UserId);
+                Console.WriteLine(resultCustomerGetById.Data.CompanyName);
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine(Messages.CustomerNotFound);
+                Console.ReadLine();
+                goto rentalCustomerIdAgain;
+            }
+
             Console.WriteLine("Kiralama Başlangıç Tarihinin Gününü Giriniz (GG) : ");
 
-            var customerRentDateDay = Convert.ToInt32(Console.ReadLine());
+            var rentalRentDateDay = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Kiralama Başlangıç Tarihinin Ayını Giriniz (AA) : ");
 
-            var customerRentDateMonth = Convert.ToInt32(Console.ReadLine());
+            var rentalRentDateMonth = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Kiralama Başlangıç Tarihinin Yılını Giriniz (YYYY) : ");
 
-            var customerRentDateYear = Convert.ToInt32(Console.ReadLine());
+            var rentalRentDateYear = Convert.ToInt32(Console.ReadLine());
 
-            var customerRentDate = new DateTime(customerRentDateYear, customerRentDateMonth, customerRentDateDay, 0, 0, 0);
+            var rentalRentDate = new DateTime(rentalRentDateYear, rentalRentDateMonth, rentalRentDateDay, 0, 0, 0);
+
+            Console.WriteLine("Kiralama Bitiş Tarihinin Gününü Giriniz (GG) : ");
+
+            var rentalReturnDateDay = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Bitiş Tarihinin Ayını Giriniz (AA) : ");
+
+            var rentalReturnDateMonth = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Kiralama Bitiş Tarihinin Yılını Giriniz (YYYY) : ");
+
+            var rentalReturnDateYear = Convert.ToInt32(Console.ReadLine());
+
+            var rentalReturnDate = new DateTime(rentalReturnDateYear, rentalReturnDateMonth, rentalReturnDateDay, 0, 0, 0);
 
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
@@ -1075,13 +1295,27 @@ namespace ConsoleUI
                 Id = rentalCode,
                 CarId = rentalCarId,
                 CustomerId = rentalCustomerId,
-                RentDate = customerRentDate
+                RentDate = rentalRentDate,
+                ReturnDate = rentalReturnDate,
             });
 
             if (rentalModifyResult.Success == true)
             {
                 Console.WriteLine(rentalModifyResult.Message);
                 Console.ReadLine();
+                CarManager carModifyManager = new CarManager(new EfCarDal());
+
+                var carModifyResult = carModifyManager.Update(new Car
+                {
+                    Id = resultCarGetById.Data.Id,
+                    BrandId = resultCarGetById.Data.BrandId,
+                    ColorId = resultCarGetById.Data.ColorId,
+                    ModelYear = resultCarGetById.Data.ModelYear,
+                    DailyPrice = resultCarGetById.Data.DailyPrice,
+                    Description = resultCarGetById.Data.Description,
+                    IsRented = false
+                });
+                //transaction mamangement eklendiği zaman carModify result handle edilecek
             }
             else
             {
@@ -1120,7 +1354,7 @@ namespace ConsoleUI
 
             var result = rentalManager.GetById(rentalCode);
 
-            if (result.Success == true)
+            if (result.Success == true && result.Data != null  )
             {
                 Console.WriteLine(result.Data.Id);
                 Console.WriteLine(result.Data.CarId);
@@ -1131,7 +1365,7 @@ namespace ConsoleUI
             }
             else
             {
-                Console.WriteLine(result.Message);
+                Console.WriteLine(Messages.RentalNotFound);
                 Console.ReadLine();
             }
         }
@@ -1153,4 +1387,3 @@ namespace ConsoleUI
         }
     }
 }
-
