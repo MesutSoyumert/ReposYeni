@@ -1,0 +1,14 @@
+1. Bilgilendirme yanıtları (100-199),
+2. Başarı yanıtları (200-299),
+3. Yönlendirmeler (300-399),
+4. İstemci hataları (400-499) ve,
+5. Sunucu hataları (500-599).
+200 Tamam. İstek başarılı oldu
+201 "İstek başarılı oldu ve bunun sonucunda yeni bir kaynak oluşturuldu."
+301 Kalıcı Yönlendirme, Bu yanıt kodu, istenen kaynağın URI'sinin değiştirildiği anlamına gelir. Muhtemelen, yanıtta yeni URI verilecektir.
+400 Bad request. Bu yanıt, sunucunun geçersiz sözdizimi nedeniyle isteği anlayamadığı anlamına gelir.
+401 Unauthorized.. HTTP standardı "yetkisiz" belirtmesine rağmen, anlamsal olarak bu yanıt "kimlik doğrulaması yapılmamış" anlamına gelir. Yani, istemci, istenen yanıtı almak için kendi kimliğini doğrulamalıdır..
+403 Forbidden. İstemcinin içeriğe erişim hakları yoktur, yani yetkisizdir, bu nedenle sunucu uygun yanıt vermeyi reddeder. 401'den farklı olarak, istemcinin kimliği sunucu tarafından bilinir..
+404 Not Found. Sunucu istenen kaynağı bulamıyor. Tarayıcıda bu, URL'nin tanınmadığı anlamına gelir. Bir API'de bu, uç noktanın geçerli olduğu ancak kaynağın kendisinin olmadığı anlamına da gelebilir. Sunucular, bir kaynağın varlığını yetkisiz bir istemciden gizlemek için 403 yerine bu yanıtı da gönderebilir. Bu yanıt kodu, web'de sık görülmesi nedeniyle muhtemelen en ünlü olanıdır.
+500 Internal Server Error. Sunucu, nasıl başa çıkacağını bilmediği bir durumla karşılaştı.
+502 Bad Gateway (en-US). Bu hata yanıtı, sunucunun isteği işlemek için gereken yanıtı almak için bir ağ geçidi olarak çalışırken geçersiz bir yanıt aldığı anlamına gelir.
