@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
@@ -26,6 +27,11 @@ namespace Business.Concrete
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
+            IResult result = BusinessRules.Run(CheckIfBrandNameExists(brand.Name));
+            if (result != null)
+            {
+                return result;
+            }
             _brandDal.Add(brand);
             return new SuccessResult(Messages.BrandAdded);
         }
@@ -49,8 +55,22 @@ namespace Business.Concrete
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Update(Brand brand)
         {
+            IResult result = BusinessRules.Run(CheckIfBrandNameExists(brand.Name));
+            if (result != null)
+            {
+                return result;
+            }
             _brandDal.Update(brand);
             return new SuccessResult(Messages.BrandUpdated);
+        }
+        private IResult CheckIfBrandNameExists(string Name)
+        {
+            var result = _brandDal.GetAll(p => p.Name == Name).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.BrandNameAlreadyExists);
+            }
+            return new SuccessResult();
         }
     }
 }

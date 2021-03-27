@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
@@ -19,14 +20,24 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
-        public CarManager(ICarDal carDal)
+        IColorService _colorService;
+        IBrandService _brandService;
+        public CarManager(ICarDal carDal, IColorService colorService, IBrandService brandService)
         {
             _carDal = carDal;
+            _colorService = colorService;
+            _brandService = brandService;
         }
 
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
+            IResult result = BusinessRules.Run(CheckIfBrandExists(car.BrandId),
+                                               CheckIfColorExists(car.ColorId));
+            if (result != null)
+            {
+                return result;
+            }
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
@@ -39,7 +50,12 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
-            ValidationTool.Validate(new CarValidator(),car);
+            IResult result = BusinessRules.Run(CheckIfBrandExists(car.BrandId),
+                                               CheckIfColorExists(car.ColorId));
+            if (result != null)
+            {
+                return result;
+            }
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
@@ -70,6 +86,24 @@ namespace Business.Concrete
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == id), Messages.CarsByColorIdListed);
+        }
+        private IResult CheckIfBrandExists(int BrandId)
+        {
+            var result = _brandService.GetById(BrandId);
+            if (result.Success == false || result.Data == null)
+            {
+                return new ErrorResult(Messages.BrandNotFound);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfColorExists(int ColorId)
+        {
+            var result = _colorService.GetById(ColorId);
+            if (result.Success == false || result.Data == null)
+            {
+                return new ErrorResult(Messages.ColorNotFound);
+            }
+            return new SuccessResult();
         }
     }
 }

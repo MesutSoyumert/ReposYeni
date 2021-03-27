@@ -27,12 +27,14 @@ namespace Business.Constants
         public static string ColorDeleted = "Renk silindi";
         public static string ColorsListed = "Tüm renkler listelendi";
         public static string ColorFound = "İstenen renk bulundu";
+        public static string ColorNameAlreadyExists = "Renk zaten var, başka renk ismi giriniz";
 
         public static string BrandAdded = "Marka eklendi";
         public static string BrandUpdated = "Marka güncelllendi";
         public static string BrandDeleted = "Marka silindi";
         public static string BrandsListed = "Tüm markalar listelendi";
         public static string BrandFound = "İstenen marka bulundu";
+        public static string BrandNameAlreadyExists = "Marka zaten var, başka marka ismi giriniz";
 
         public static string UserAdded = "Kullanıcı eklendi";
         public static string UserUpdated = "Kullanıcı güncelllendi";
@@ -47,6 +49,8 @@ namespace Business.Constants
         public static string CustomersListed = "Tüm müşteriler listelendi";
         public static string CustomerFound = "İstenen müşteri bulundu";
         public static string CustomerNotFound = "İstenen müşteri bulunamadı";
+        public static string CustomerCompanyNameAlreadyExists = "Girilen Şirket adı müşterilerde zaten var, başka Şirket adı ismi giriniz";
+        public static string CustomerCustomerUserIdAlreadyExists = "Girilen kullanıcı koduna ait müşteri zaten kayıtlı, başka kullanıcı kodu giriniz";
 
         public static string RentalAdded = "Kiralama eklendi";
         public static string RentalUpdated = "Kiralama güncelllendi";
