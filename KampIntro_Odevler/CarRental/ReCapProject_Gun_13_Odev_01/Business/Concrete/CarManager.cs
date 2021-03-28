@@ -6,6 +6,7 @@ using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -22,11 +23,18 @@ namespace Business.Concrete
         ICarDal _carDal;
         IColorService _colorService;
         IBrandService _brandService;
+        private EfCarDal efCarDal;
+
         public CarManager(ICarDal carDal, IColorService colorService, IBrandService brandService)
         {
             _carDal = carDal;
             _colorService = colorService;
             _brandService = brandService;
+        }
+
+        public CarManager(EfCarDal efCarDal)
+        {
+            this.efCarDal = efCarDal;
         }
 
         [ValidationAspect(typeof(CarValidator))]

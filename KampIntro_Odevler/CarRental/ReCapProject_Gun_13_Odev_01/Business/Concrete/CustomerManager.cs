@@ -18,15 +18,20 @@ namespace Business.Concrete
     public class CustomerManager : ICustomerService
     {
         ICustomerDal _customerDal;
-        public CustomerManager(ICustomerDal customerDal)
+        IUserService _userService;
+        IRentalService _rentalService;
+        public CustomerManager(ICustomerDal customerDal, IUserService userService, IRentalService rentalService)
         {
             _customerDal = customerDal;
+            _userService = userService;
+            _rentalService = rentalService;
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Add(Customer customer)
         {
             IResult result = BusinessRules.Run(CheckIfCustomerCompanyNameExists(customer.CompanyName),
+                                               CheckIfUserIdExists(customer.UserId),
                                                CheckIfCustomerUserIdExists(customer.UserId));
             if (result != null)
             {
@@ -38,6 +43,11 @@ namespace Business.Concrete
 
         public IResult Delete(Customer customer)
         {
+            IResult result = BusinessRules.Run(CheckIfCustomerHasActiveRentalExists(customer.Id));
+            if (result != null)
+            {
+                return result;
+            }
             _customerDal.Delete(customer);
             return new SuccessResult(Messages.CustomerDeleted);
         }
@@ -78,7 +88,27 @@ namespace Business.Concrete
             var result = _customerDal.GetAll(p => p.UserId == UserId).Any();
             if (result)
             {
-                return new ErrorResult(Messages.CustomerCustomerUserIdAlreadyExists);
+                return new ErrorResult(Messages.CustomerUserIdAlreadyExists);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfUserIdExists(int UserId)
+        {
+            var result = _userService.GetById(UserId);
+
+            if (result.Success == false || result.Data == null)
+            {
+                return new ErrorResult(Messages.UserNotFound);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfCustomerHasActiveRentalExists(int id)
+        {
+            var result = _rentalService.GetRentalsByCustomerId(id);
+
+            if (result.Data.Count > 0)
+            {
+                return new ErrorResult(Messages.CustomerHasActiveRentalExists);
             }
             return new SuccessResult();
         }

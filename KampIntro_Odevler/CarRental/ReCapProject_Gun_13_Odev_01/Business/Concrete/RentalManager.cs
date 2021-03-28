@@ -45,6 +45,11 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(p => p.Id == id), Messages.RentalFound);
         }
 
+        public IDataResult<List<Rental>> GetRentalsByCustomerId(int id)
+        {
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(p => p.CustomerId == id && p.ReturnDate == new DateTime(0001, 01, 01, 0, 0, 0)), Messages.RentalsByCutomerIdListed);
+        }
+
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {

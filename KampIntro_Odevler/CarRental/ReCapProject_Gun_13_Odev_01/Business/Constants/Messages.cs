@@ -35,6 +35,7 @@ namespace Business.Constants
         public static string BrandsListed = "Tüm markalar listelendi";
         public static string BrandFound = "İstenen marka bulundu";
         public static string BrandNameAlreadyExists = "Marka zaten var, başka marka ismi giriniz";
+        public static string BrandToDeleteCarsHasBrand = "Silinmek istenen marka tanımlı araba mevcut, bu markayı silemesiniz, başka marka giriniz";
 
         public static string UserAdded = "Kullanıcı eklendi";
         public static string UserUpdated = "Kullanıcı güncelllendi";
@@ -50,7 +51,7 @@ namespace Business.Constants
         public static string CustomerFound = "İstenen müşteri bulundu";
         public static string CustomerNotFound = "İstenen müşteri bulunamadı";
         public static string CustomerCompanyNameAlreadyExists = "Girilen Şirket adı müşterilerde zaten var, başka Şirket adı ismi giriniz";
-        public static string CustomerCustomerUserIdAlreadyExists = "Girilen kullanıcı koduna ait müşteri zaten kayıtlı, başka kullanıcı kodu giriniz";
+        public static string CustomerUserIdAlreadyExists = "Girilen kullanıcı koduna ait müşteri zaten kayıtlı, başka kullanıcı kodu giriniz";
 
         public static string RentalAdded = "Kiralama eklendi";
         public static string RentalUpdated = "Kiralama güncelllendi";
@@ -59,6 +60,16 @@ namespace Business.Constants
         public static string RentalFound = "İstenen kiralama bulundu";
         public static string RentalNotFound = "İstenen kiralama bulunamadı";
         public static string RentalCarIsAlreadyRented = "İstenen araba zaten kiralanmış durumda, başka araba giriniz";
+        public static string RentalsByCutomerIdListed = "İstenen müşterinin aktif kiralamaları listelendi";
+        public static string CustomerHasActiveRentalExists = "Silinmek istenen müşterinin aktif kiralamaları mevcuttur, müşteriyi silemezsiniz";
+
+        public static string CarImageAdded = "Araba resmi eklendi";
+        public static string CarImageUpdated = "Araba resmi güncelllendi";
+        public static string CarImageDeleted = "Araba resmi silindi";
+        public static string CarImagesListed = "Tüm araba resimleri listelendi";
+        public static string CarImageFound = "İstenen araba resmi bulundu";
+        public static string CarImageNotFound = "İstenen araba resmi bulunamadı";
+        public static string CarImagesByCarIdListed = "İstenen arabaya ait resimler listelendi";
 
         public static string MaintenanceTime = "Sistem bakımda olduğu için işleminiz gerçekleştirilemiyor";
         public static string YesNoInputInvalid = "Evet veya Hayır cevaplarından birini giriniz";
