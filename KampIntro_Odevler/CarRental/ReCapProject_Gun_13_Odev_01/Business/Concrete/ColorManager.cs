@@ -38,6 +38,11 @@ namespace Business.Concrete
 
         public IResult Delete(Color color)
         {
+            IResult result = BusinessRules.Run(CheckIfColorToDeleteCarsHasColor(color.Id));
+            if (result != null)
+            {
+                return result;
+            }
             _colorDal.Delete(color);
             return new SuccessResult(Messages.ColorDeleted);
         }
@@ -72,6 +77,18 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.ColorNameAlreadyExists);
             }
+            return new SuccessResult();
+        }
+        private IResult CheckIfColorToDeleteCarsHasColor(int id)
+        {
+            //CarManager carManager = new CarManager(new EfCarDal());
+
+            //var result = carManager.GetCarsByBrandId(id);
+
+            //if (result != null && result.Data.Count > 0)
+            //{
+            //    return new ErrorResult(Messages.ColorToDeleteCarsHasColor);
+            //}
             return new SuccessResult();
         }
     }

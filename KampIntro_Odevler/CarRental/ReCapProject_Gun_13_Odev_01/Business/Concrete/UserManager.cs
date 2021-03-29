@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -17,13 +18,20 @@ namespace Business.Concrete
     public class UserManager : IUserService
     {
         IUserDal _userDal;
-        public UserManager(IUserDal userDal)
+        ICustomerService _customerService;
+        public UserManager(IUserDal userDal, ICustomerService customerService)
         {
             _userDal = userDal;
+            _customerService = customerService;
         }
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
+            IResult result = BusinessRules.Run(CheckIfUserCredentialsExists(user.FirstName, user.LastName, user.Email));
+            if (result != null)
+            {
+                return result;
+            }
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
@@ -47,8 +55,32 @@ namespace Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
+            IResult result = BusinessRules.Run(CheckIfUserCredentialsExists(user.FirstName, user.LastName, user.Email));
+            if (result != null)
+            {
+                return result;
+            }
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
+        }
+        private IResult CheckIfUserCredentialsExists(string FirstName, string LastName, string Email)
+        {
+            var result = _userDal.GetAll(p => p.FirstName == FirstName && p.LastName == LastName && p.Email == Email).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.UserCredentialsExists);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfUserHasActiveCustomerExists(int id)
+        {
+            var result = _customerService.GetCustomersByUserId(id);
+
+            if (result.Data.Count > 0)
+            {
+                return new ErrorResult(Messages.UserHasActiveCustomerExists);
+            }
+            return new SuccessResult();
         }
     }
 }

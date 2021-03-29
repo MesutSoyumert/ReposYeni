@@ -13,6 +13,6 @@ namespace Entities.Concrete
         public int Id { get; set; }
         public int CarId { get; set; }
         public int ImagePath { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime Date { get; set; }
     }
 }

@@ -80,14 +80,14 @@ namespace Business.Concrete
         }
         private IResult CheckIfBrandToDeleteCarsHasBrand(int id)
         {
-            CarManager carManager = new CarManager(new EfCarDal());
+            //CarManager carManager = new CarManager(new EfCarDal());
 
-            var result = carManager.GetCarsByBrandId(id);
+            //var result = carManager.GetCarsByBrandId(id);
 
-            if (result != null && result.Data.Count > 0)
-            {
-                return new ErrorResult(Messages.BrandToDeleteCarsHasBrand);
-            }
+            //if (result != null && result.Data.Count > 0)
+            //{
+            //    return new ErrorResult(Messages.BrandToDeleteCarsHasBrand);
+            //}
             return new SuccessResult();
         }
     }

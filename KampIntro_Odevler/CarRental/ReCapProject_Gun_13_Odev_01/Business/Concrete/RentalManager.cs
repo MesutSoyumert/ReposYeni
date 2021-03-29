@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -17,14 +18,25 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
-        public RentalManager(IRentalDal rentalDal)
+        ICarService _carService;
+        ICustomerService _customerService;
+        public RentalManager(IRentalDal rentalDal, ICarService carService, ICustomerService customerService)
         {
             _rentalDal = rentalDal;
+            _carService = carService;
+            _customerService = customerService;
         }
 
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
+            IResult result = BusinessRules.Run(CheckIfCarExists(rental.CarId),
+                                               CheckIfRentalCarIsAlreadyRented(rental.CarId),
+                                               CheckIfCustomerExists(rental.CustomerId));
+            if (result != null)
+            {
+                return result;
+            }
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
         }
@@ -53,8 +65,49 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
+            IResult result = BusinessRules.Run(CheckIfCarExists(rental.CarId),
+                                               CheckIfRentalCarIsAlreadyRented(rental.CarId),
+                                               CheckIfCustomerExists(rental.CustomerId));
+            if (result != null)
+            {
+                return result;
+            }
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.RentalUpdated);
+        }
+        private IResult CheckIfCarExists(int CarId)
+        {
+            var result = _carService.GetById(CarId);
+
+            if (result.Success == false || result.Data == null)
+            {
+                return new ErrorResult(Messages.CarNotFound);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfRentalCarIsAlreadyRented(int CarId)
+        {
+            var result = _carService.GetById(CarId);
+
+            if (result.Success == false || result.Data == null)
+            {
+                return new ErrorResult(Messages.CarNotFound);
+            }
+            if (result.Data.IsRented == true)
+            {
+                return new ErrorResult(Messages.RentalCarIsAlreadyRented);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfCustomerExists(int CustomerId)
+        {
+            var result = _customerService.GetById(CustomerId);
+
+            if (result.Success == false || result.Data == null)
+            {
+                return new ErrorResult(Messages.CarNotFound);
+            }
+            return new SuccessResult();
         }
     }
 }

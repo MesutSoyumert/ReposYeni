@@ -28,6 +28,7 @@ namespace Business.Constants
         public static string ColorsListed = "Tüm renkler listelendi";
         public static string ColorFound = "İstenen renk bulundu";
         public static string ColorNameAlreadyExists = "Renk zaten var, başka renk ismi giriniz";
+        public static string ColorToDeleteCarsHasColor = "Silinmek istenen renkte tanımlı araba mevcut, bu rengi silemesiniz, silmek için başka renk giriniz";
 
         public static string BrandAdded = "Marka eklendi";
         public static string BrandUpdated = "Marka güncelllendi";
@@ -35,7 +36,7 @@ namespace Business.Constants
         public static string BrandsListed = "Tüm markalar listelendi";
         public static string BrandFound = "İstenen marka bulundu";
         public static string BrandNameAlreadyExists = "Marka zaten var, başka marka ismi giriniz";
-        public static string BrandToDeleteCarsHasBrand = "Silinmek istenen marka tanımlı araba mevcut, bu markayı silemesiniz, başka marka giriniz";
+        public static string BrandToDeleteCarsHasBrand = "Silinmek istenen markada tanımlı araba mevcut, bu markayı silemesiniz, silmek için başka marka giriniz";
 
         public static string UserAdded = "Kullanıcı eklendi";
         public static string UserUpdated = "Kullanıcı güncelllendi";
@@ -43,6 +44,8 @@ namespace Business.Constants
         public static string UsersListed = "Tüm kullanıcılar listelendi";
         public static string UserFound = "İstenen kullanıcı bulundu";
         public static string UserNotFound = "Kullanıcı bulunamadı";
+        public static string UserCredentialsExists = "Girdiğiniz Kullanıcı Adı, Soyadı ve e-posta ile zaten kayıtlı bir kullanıcı var";
+        public static string UserHasActiveCustomerExists = "Silinmek istenen kullanıcıya ait aktif müşteri kayıtları mevcuttur, kullanıcı silinmedi";
 
         public static string CustomerAdded = "Müşteri eklendi";
         public static string CustomerUpdated = "Müşteri güncelllendi";
@@ -52,6 +55,7 @@ namespace Business.Constants
         public static string CustomerNotFound = "İstenen müşteri bulunamadı";
         public static string CustomerCompanyNameAlreadyExists = "Girilen Şirket adı müşterilerde zaten var, başka Şirket adı ismi giriniz";
         public static string CustomerUserIdAlreadyExists = "Girilen kullanıcı koduna ait müşteri zaten kayıtlı, başka kullanıcı kodu giriniz";
+        public static string CustomerHasActiveRentalExists = "Silinmek istenen müşterinin aktif kiralamaları mevcuttur, müşteriyi silemezsiniz";
 
         public static string RentalAdded = "Kiralama eklendi";
         public static string RentalUpdated = "Kiralama güncelllendi";
@@ -61,9 +65,10 @@ namespace Business.Constants
         public static string RentalNotFound = "İstenen kiralama bulunamadı";
         public static string RentalCarIsAlreadyRented = "İstenen araba zaten kiralanmış durumda, başka araba giriniz";
         public static string RentalsByCutomerIdListed = "İstenen müşterinin aktif kiralamaları listelendi";
-        public static string CustomerHasActiveRentalExists = "Silinmek istenen müşterinin aktif kiralamaları mevcuttur, müşteriyi silemezsiniz";
+
 
         public static string CarImageAdded = "Araba resmi eklendi";
+        public static string CarImageNumbersByCarExceeded = "Bir araba için en çok 5 resim eklenebilir, yüklemek istediğiniz araba resmi yüklenemedi";
         public static string CarImageUpdated = "Araba resmi güncelllendi";
         public static string CarImageDeleted = "Araba resmi silindi";
         public static string CarImagesListed = "Tüm araba resimleri listelendi";

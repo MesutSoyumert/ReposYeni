@@ -112,5 +112,10 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+        
+        public IDataResult<List<Customer>> GetCustomersByUserId(int id)
+        {
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(p => p.UserId == id), Messages.CarsByBrandIdListed);
+        }
     }
 }

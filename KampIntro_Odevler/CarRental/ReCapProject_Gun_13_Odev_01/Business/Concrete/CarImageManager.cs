@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -24,6 +25,12 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(CarImage carImage)
         {
+            IResult result = BusinessRules.Run(CheckIfNumberOfCarImages(carImage.CarId));
+            if (result != null)
+            {
+                return result;
+            }
+            carImage.Date = DateTime.Now;
             _carImageDal.Add(carImage);
             return new SuccessResult(Messages.CarImageAdded);
         }
@@ -52,8 +59,24 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(CarImage carImage)
         {
+            IResult result = BusinessRules.Run(CheckIfNumberOfCarImages(carImage.CarId));
+            if (result != null)
+            {
+                return result;
+            }
+            carImage.Date = DateTime.Now;
             _carImageDal.Update(carImage);
             return new SuccessResult(Messages.CarImageUpdated);
+        }
+        private IResult CheckIfNumberOfCarImages(int carId)
+        {
+            var result = _carImageDal.GetAll(p => p.CarId == carId);
+
+            if (result.Count >= 5)
+            {
+                return new ErrorResult(Messages.CarImageNumbersByCarExceeded);
+            }
+            return new SuccessResult();
         }
     }
 }
