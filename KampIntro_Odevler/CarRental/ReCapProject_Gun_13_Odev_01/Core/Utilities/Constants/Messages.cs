@@ -68,13 +68,18 @@ namespace Business.Constants
 
 
         public static string CarImageAdded = "Araba resmi eklendi";
-        public static string CarImageNumbersByCarExceeded = "Bir araba için en çok 5 resim eklenebilir, yüklemek istediğiniz araba resmi yüklenemedi";
         public static string CarImageUpdated = "Araba resmi güncelllendi";
         public static string CarImageDeleted = "Araba resmi silindi";
         public static string CarImagesListed = "Tüm araba resimleri listelendi";
         public static string CarImageFound = "İstenen araba resmi bulundu";
         public static string CarImageNotFound = "İstenen araba resmi bulunamadı";
         public static string CarImagesByCarIdListed = "İstenen arabaya ait resimler listelendi";
+        public static string CarImageUploadedSuccessfully = "Araba resmi başarıyla klasöre kopyalandı";
+        public static string CarImageFileNotValid = "Yüklemek istediğiniz dosya türü .jpeg, .jpg veya .png olmalıdır, dosya yüklenmedi";
+        public static string CarImageNumbersByCarExceeded(int imageLimit)
+        {
+            return $"Yüklemek istediğiniz araba resmi yüklenemedi, bir araba için eklenebilecek resim sayısı : {imageLimit}";
+        }
 
         public static string MaintenanceTime = "Sistem bakımda olduğu için işleminiz gerçekleştirilemiyor";
         public static string YesNoInputInvalid = "Evet veya Hayır cevaplarından birini giriniz";
