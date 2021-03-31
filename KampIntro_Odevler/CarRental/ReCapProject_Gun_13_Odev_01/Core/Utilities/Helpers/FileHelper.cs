@@ -1,5 +1,4 @@
-﻿using Business.Constants;
-using Core.Utilities.Results;
+﻿using Core.Utilities.Results;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -12,49 +11,72 @@ namespace Core.Utilities.Helpers
 {
     public class FileHelper
     {
-        private static string _currentDirectory = Environment.CurrentDirectory;
-        private static string _folderName = "\\Resources" + "\\Images\\";
-
-        public static IDataResult<string> ImageUpload(IFormFile file)
+        public static string Add(IFormFile file)
         {
-            var type = Path.GetExtension(file.FileName).ToLower();
-            var typeValid = CheckImageFileTypeValid(type);
-            var randomName = Guid.NewGuid().ToString();
-
-            if (typeValid.Message != null) return new ErrorDataResult<string>(typeValid.Message);
-
-            CheckDirectoryExists(_currentDirectory + _folderName);
-            CreateFile(_currentDirectory + _folderName + randomName + type, file);
-            return new SuccessDataResult<string>(
-                (_folderName + randomName + type).Replace("\\", "/"),
-                Messages.CarImageUploadedSuccessfully);
+            var result = newPath(file);
+            try
+            {
+                var sourcePath = Path.GetTempFileName();
+                if (file.Length > 0)
+                    using (var stream = new FileStream(sourcePath, FileMode.Create))
+                        file.CopyTo(stream);
+                File.Move(sourcePath, result.newPath);
+            }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
+            return result.Path2;
         }
 
-
-        private static IResult CheckImageFileTypeValid(string type)
+        public static string Update(string sourcePath, IFormFile file)
         {
-            if (type != ".jpeg" && type != ".png" && type != ".jpg")
+            var result = newPath(file);
+            try
             {
-                return new ErrorResult(Messages.CarImageFileNotValid);
+                if (sourcePath.Length > 0)
+                {
+                    using (var stream = new FileStream(result.newPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+                File.Delete(sourcePath);
             }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
+            return result.Path2;
+        }
+
+        public static IResult Delete(string path)
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception exception)
+            {
+                return new ErrorResult(exception.Message);
+            }
+
             return new SuccessResult();
         }
 
-        private static void CheckDirectoryExists(string directory)
+        public static (string newPath, string Path2) newPath(IFormFile file)
         {
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-        }
+            FileInfo ff = new FileInfo(file.FileName);
+            string fileExtension = ff.Extension;
 
-        private static void CreateFile(string directory, IFormFile file)
-        {
-            using (FileStream fs = File.Create(directory))
-            {
-                file.CopyTo(fs);
-                fs.Flush();
-            }
+            var newPath = Guid.NewGuid() + fileExtension;
+
+
+            string path = Environment.CurrentDirectory + @"\wwwroot\uploads";
+
+            string result = $@"{path}\{newPath}";
+
+            return (result, $"\\uploads\\{newPath}");
         }
     }
 }

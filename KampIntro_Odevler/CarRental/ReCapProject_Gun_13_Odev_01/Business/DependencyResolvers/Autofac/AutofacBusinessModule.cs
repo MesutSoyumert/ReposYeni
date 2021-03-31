@@ -38,7 +38,6 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
-            builder.RegisterType<UploadManager>().As<IUploadService>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
