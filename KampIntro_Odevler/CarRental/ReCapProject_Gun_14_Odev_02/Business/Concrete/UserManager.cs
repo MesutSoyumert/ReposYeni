@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -18,11 +19,13 @@ namespace Business.Concrete
     public class UserManager : IUserService
     {
         IUserDal _userDal;
-        ICustomerService _customerService;
-        public UserManager(IUserDal userDal, ICustomerService customerService)
+        //ICustomerService _customerService;
+        //public UserManager(IUserDal userDal, ICustomerService customerService)
+
+        public UserManager(IUserDal userDal)
         {
             _userDal = userDal;
-            _customerService = customerService;
+            //_customerService = customerService;
         }
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
@@ -72,15 +75,15 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
-        private IResult CheckIfUserHasActiveCustomerExists(int id)
-        {
-            var result = _customerService.GetCustomersByUserId(id);
+        //private IResult CheckIfUserHasActiveCustomerExists(int id)
+        //{
+        //    var result = _customerService.GetCustomersByUserId(id);
 
-            if (result.Data.Count > 0)
-            {
-                return new ErrorResult(Messages.UserHasActiveCustomerExists);
-            }
-            return new SuccessResult();
-        }
+        //    if (result.Data.Count > 0)
+        //    {
+        //        return new ErrorResult(Messages.UserHasActiveCustomerExists);
+        //    }
+        //    return new SuccessResult();
+        //}
     }
 }

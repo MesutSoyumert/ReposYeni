@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
   </ItemGroup>
 
@@ -13,11 +18,6 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 </Project>
