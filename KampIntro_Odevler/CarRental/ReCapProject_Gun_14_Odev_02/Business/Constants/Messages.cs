@@ -46,6 +46,13 @@ namespace Business.Constants
         public static string UserNotFound = "Kullanıcı bulunamadı";
         public static string UserCredentialsExists = "Girdiğiniz Kullanıcı Adı, Soyadı ve e-posta ile zaten kayıtlı bir kullanıcı var";
         public static string UserHasActiveCustomerExists = "Silinmek istenen kullanıcıya ait aktif müşteri kayıtları mevcuttur, kullanıcı silinmedi";
+        public static string UserOperationClaimsTaken = "Kullanıcı operasyon yetkileri oluşturuldu";
+        public static string UserEmailTaken = "Kullanıcı e-postası alındı";
+        public static string AccessTokenCreated = "Erişim yetkisi oluşturuldu";
+        public static string UserAlreadyExists = "Kullanıcı zaten mevcut";
+        public static string SuccessfulLogin = "Oturum açma başarılı";
+        public static string PasswordError = "Parola hatalı";
+        public static string UserRegistered = "Kullanıcı kaydı oluşturuldu";
 
         public static string CustomerAdded = "Müşteri eklendi";
         public static string CustomerUpdated = "Müşteri güncelllendi";
@@ -83,5 +90,6 @@ namespace Business.Constants
 
         public static string MaintenanceTime = "Sistem bakımda olduğu için işleminiz gerçekleştirilemiyor";
         public static string YesNoInputInvalid = "Evet veya Hayır cevaplarından birini giriniz";
+        public static string AuthorizationDenied = "Bu işlemi yapmaya yetkiniz bulunmamaktadır, Uygulama Yöneticinize başvurunuz";
     }
 }

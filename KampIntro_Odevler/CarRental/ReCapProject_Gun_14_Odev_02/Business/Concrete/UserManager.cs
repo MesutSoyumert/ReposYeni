@@ -66,6 +66,14 @@ namespace Business.Concrete
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }
+        public List<OperationClaim> GetClaims(User user)
+        {
+            return _userDal.GetClaims(user);
+        }
+        public User GetByMail(string email)
+        {
+            return _userDal.Get(u => u.Email == email);
+        }
         private IResult CheckIfUserCredentialsExists(string FirstName, string LastName, string Email)
         {
             var result = _userDal.GetAll(p => p.FirstName == FirstName && p.LastName == LastName && p.Email == Email).Any();
