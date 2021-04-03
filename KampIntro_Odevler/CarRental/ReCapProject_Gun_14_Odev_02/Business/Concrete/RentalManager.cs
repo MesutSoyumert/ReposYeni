@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
@@ -27,6 +28,7 @@ namespace Business.Concrete
             _customerService = customerService;
         }
 
+        [SecuredOperation("rental.add,rental.admin,admin")]
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
@@ -41,27 +43,32 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalAdded);
         }
 
+        [SecuredOperation("rental.delete,rental.admin,admin")]
         public IResult Delete(Rental rental)
         {
             _rentalDal.Delete(rental);
             return new SuccessResult(Messages.RentalDeleted);
         }
 
+        [SecuredOperation("rental.list.getall,rental.admin,admin")]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
         }
 
+        [SecuredOperation("rental.list.getbyid,rental.admin,admin")]
         public IDataResult<Rental> GetById(int id)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(p => p.Id == id), Messages.RentalFound);
         }
 
+        [SecuredOperation("rental.list.getrentalsbycustomerid,rental.admin,admin")]
         public IDataResult<List<Rental>> GetRentalsByCustomerId(int id)
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(p => p.CustomerId == id && p.ReturnDate == new DateTime(0001, 01, 01, 0, 0, 0)), Messages.RentalsByCutomerIdListed);
         }
 
+        [SecuredOperation("rental.update,rental.admin,admin")]
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {

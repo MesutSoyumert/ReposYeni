@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
@@ -26,7 +27,8 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
-        //[ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("carimage.add,carimage.admin,admin")]
+        [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfCarImagesLimitExceeded(carImage.CarId));
@@ -41,7 +43,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        //[ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("carimage.delete,carimage.admin,admin")]
         public IResult Delete(CarImage carImage)
         {
             FileHelper.Delete(carImage.ImagePath);
@@ -49,7 +51,8 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        //[ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("carimage.update,carimage.admin,admin")]
+        [ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfCarImagesLimitExceeded(carImage.CarId));
@@ -66,18 +69,19 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        //[ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("carimage.list.getbyid,carimage.admin,admin")]
         public IDataResult<CarImage> Get(int id)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(p => p.Id == id));
         }
 
+        [SecuredOperation("carimage.list.getall,carimage.admin,admin")]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
-        //[ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("carimage.list.getimagesbycarid,carimage.admin,admin")]
         public IDataResult<List<CarImage>> GetImagesByCarId(int id)
         {
             IResult result = BusinessRules.Run(CheckIfCarImageNull(id));
@@ -90,7 +94,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(id).Data);
         }
 
-        //business rules
         private IResult CheckIfCarImagesLimitExceeded(int carId)
         {
             var carImageCount = _carImageDal.GetAll(p => p.CarId == carId).Count;

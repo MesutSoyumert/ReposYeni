@@ -32,7 +32,7 @@ namespace Business.Concrete
             _brandService = brandService;
         }
 
-        [SecuredOperation("car.add, admin")]
+        [SecuredOperation("car.add,car.admin,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
@@ -45,12 +45,15 @@ namespace Business.Concrete
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
+        
+        [SecuredOperation("car.delete,car.admin,admin")]
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
 
+        [SecuredOperation("car.update,car.admin,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
@@ -63,6 +66,8 @@ namespace Business.Concrete
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
+        
+        [SecuredOperation("car.list.getall,car.admin,admin")]
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour == 03)
@@ -72,21 +77,25 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
         }
 
+        [SecuredOperation("car.list.getbyid,car.admin,admin")]
         public IDataResult<Car> GetById(int id)
         {
             return new SuccessDataResult<Car>(_carDal.Get(p=>p.Id == id), Messages.CarFound);
         }
 
+        [SecuredOperation("car.list.getcardetails,car.admin,admin")]
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsDetailsListed);
         }
 
+        [SecuredOperation("car.list.getcarsbybrandid,car.admin,admin")]
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id), Messages.CarsByBrandIdListed);
         }
 
+        [SecuredOperation("car.list.getcarsbycolorid,car.admin,admin")]
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == id), Messages.CarsByColorIdListed);

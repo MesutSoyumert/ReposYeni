@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
@@ -27,6 +28,8 @@ namespace Business.Concrete
             _userDal = userDal;
             //_customerService = customerService;
         }
+
+        [SecuredOperation("user.add,user.admin,admin")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
@@ -39,22 +42,26 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserAdded);
         }
 
+        [SecuredOperation("user.delete,user.admin,admin")]
         public IResult Delete(User user)
         {
             _userDal.Delete(user);
             return new SuccessResult(Messages.UserDeleted);
         }
 
+        [SecuredOperation("user.list.getall,user.admin,admin")]
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
         }
 
+        [SecuredOperation("user.list.getbyid,user.admin,admin")]
         public IDataResult<User> GetById(int id)
         {
             return new SuccessDataResult<User>(_userDal.Get(p => p.Id == id), Messages.UserFound);
         }
 
+        [SecuredOperation("user.update,user.admin,adminn")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
@@ -66,10 +73,13 @@ namespace Business.Concrete
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }
+        //[SecuredOperation("user.list.getclaims, user.admin, admin")]// Bunu düşün
         public List<OperationClaim> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
         }
+        
+        //[SecuredOperation("user.list.getbymail, user.admin, admin")]// Bunu düşün
         public User GetByMail(string email)
         {
             return _userDal.Get(u => u.Email == email);

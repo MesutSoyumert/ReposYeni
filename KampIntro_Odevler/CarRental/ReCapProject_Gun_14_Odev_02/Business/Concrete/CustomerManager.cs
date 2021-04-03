@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Aspects.Validation;
@@ -28,6 +29,7 @@ namespace Business.Concrete
             //_rentalService = rentalService;
         }
 
+        [SecuredOperation("customer.add,customer.admin,admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Add(Customer customer)
         {
@@ -45,6 +47,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerAdded);
         }
 
+        [SecuredOperation("customer.delete,customer.admin,admin")]
         public IResult Delete(Customer customer)
         {
             //IResult result = BusinessRules.Run(CheckIfCustomerHasActiveRentalExists(customer.Id));
@@ -56,16 +59,19 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerDeleted);
         }
 
+        [SecuredOperation("customer.list.getall,customer.admin,admin")]
         public IDataResult<List<Customer>> GetAll()
         {
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
         }
 
+        [SecuredOperation("customer.list.getbyid,customer.admin,admin")]
         public IDataResult<Customer> GetById(int id)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(p => p.Id == id), Messages.CustomerFound);
         }
 
+        [SecuredOperation("customer.update,customer.admin,admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Update(Customer customer)
         {
