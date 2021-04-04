@@ -1,0 +1,12 @@
+.no-sort::after {
+	display: none !important;
+	background-image: url() !important;
+}
+
+
+
+.card [class*=card-header-]:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
+	border-radius: 3px;
+	margin-top: -20px;
+	padding: 15px 15px  44px !important;
+}
