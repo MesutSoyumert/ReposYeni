@@ -33,7 +33,7 @@ namespace Business.Concrete
             _brandService = brandService;
         }
 
-        [SecuredOperation("car.add,car.admin,admin")]
+        //[SecuredOperation("car.add,car.admin,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         //[PerformanceAspect(10)]
@@ -49,7 +49,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarAdded);
         }
         
-        [SecuredOperation("car.delete,car.admin,admin")]
+        //[SecuredOperation("car.delete,car.admin,admin")]
         [CacheRemoveAspect("ICarService.Get")]
         //[PerformanceAspect(10)]
         public IResult Delete(Car car)
@@ -58,7 +58,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
         }
 
-        [SecuredOperation("car.update,car.admin,admin")]
+        //[SecuredOperation("car.update,car.admin,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         //[PerformanceAspect(10)]
@@ -86,7 +86,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
         }
 
-        [SecuredOperation("car.list.getbyid,car.admin,admin")]
+        //[SecuredOperation("car.list.getbyid,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<Car> GetById(int id)
@@ -102,7 +102,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsDetailsListed);
         }
 
-        [SecuredOperation("car.list.getcarsbybrandid,car.admin,admin")]
+        //[SecuredOperation("car.list.getcarsbybrandid,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
@@ -110,7 +110,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id), Messages.CarsByBrandIdListed);
         }
 
-        [SecuredOperation("car.list.getcarsbycolorid,car.admin,admin")]
+        //[SecuredOperation("car.list.getcarsbycolorid,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<List<Car>> GetCarsByColorId(int id)

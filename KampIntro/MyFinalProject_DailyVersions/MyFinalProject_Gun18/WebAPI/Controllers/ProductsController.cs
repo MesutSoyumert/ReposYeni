@@ -1,29 +1,47 @@
 ﻿using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class ProductsController : ControllerBase
     {
-        IBrandService _brandService;
+        //Swagger API kullanım dokümantasyonu hazırlar
+        //IoC Container -- Inversion Of Control
 
-        public BrandsController(IBrandService brandService)
+        IProductService _productService;
+        public ProductsController(IProductService productService)
         {
-            _brandService = brandService;
+            _productService = productService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _brandService.GetAll();
+            //Swagger
+            //Dependency chain
+            //Thread.Sleep(5000); 5 sn beklesin spinner göreli diye koymuştuk, spinner'ı gördüm
+            var result = _productService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
+        {
+            var result = _productService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -31,10 +49,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpGet("getbycategory")]
+        public IActionResult GetAllByCategoryId(int categoryId)
         {
-            var result = _brandService.GetById(id);
+            var result = _productService.GetAllByCategoryId(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getproductdetails")]
+        public IActionResult GetProductDetails(int categoryId)
+        {
+            var result = _productService.GetProductDetails();
             if (result.Success)
             {
                 return Ok(result);
@@ -43,31 +72,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Brand brand)
+        public IActionResult Add(Product product)
         {
-            var result = _brandService.Add(brand);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        [HttpPost("update")]
-        public IActionResult Update(Brand brand)
-        {
-            var result = _brandService.Update(brand);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        [HttpPost("delete")]
-        public IActionResult Delete(Brand brand)
-        {
-            var result = _brandService.Delete(brand);
+            var result = _productService.Add(product);
             if (result.Success)
             {
                 return Ok(result);
