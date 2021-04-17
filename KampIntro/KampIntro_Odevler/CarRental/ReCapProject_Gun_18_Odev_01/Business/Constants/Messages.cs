@@ -13,10 +13,15 @@ namespace Business.Constants
         public static string CarDeleted = "Araba silindi";
         public static string CarsListed = "Tüm arabalar listelendi";
         public static string CarFound = "İstenen araba bulundu";
+        public static string CarMostDetailsFound = "İstenen araba detayları ile birlikte bulundu";
         public static string CarNotFound = "İstenen araba bulunamadı";
         public static string CarsDetailsListed = "Tüm arabalar detaylı olarak listelendi";
         public static string CarsByBrandIdListed = "Tüm arabalar marka bazında listelendi";
         public static string CarsByColorIdListed = "Tüm arabalar renk bazında listelendi";
+        public static string CarsMostDetailsListed = "Tüm arabalar tam detaylı olarak listelendi";
+        public static string CarsMostDetailsByBrandListed = "Tüm arabalar marka bazında tam detaylı olarak listelendi";
+        public static string CarsMostDetailsByColorListed = "Tüm arabalar renk bazında tam detaylı olarak listelendi";
+
         public static string CarNameInvalid = "Araç adı en az üç karakter uzunluğunda olmalıdır";
         public static string CarDaiyPriceZero = "Araç günlük ücreti sıfırdan büyük olmalıdır";
         public static string BrandNotFound = "Araç markası kayıtlı değil, tekrar girin";

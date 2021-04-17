@@ -31,6 +31,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -41,6 +42,18 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getmostcardetailsbyid")]
+        public IActionResult GetMostCarDetailsById(int id)
+        {
+            var result = _carService.GetMostCarDetailsById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getcardetails")]
         
         public IActionResult GetCarDetails()
@@ -54,7 +67,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getmostcardetails")]
-        
         public IActionResult GetMostCarDetails()
         {
             var result = _carService.GetMostCarDetails();
@@ -64,7 +76,29 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        
+
+        [HttpGet("getmostcardetailsbybrand")]
+        public IActionResult GetMostCarDetailsByBrand(int id)
+        {
+            var result = _carService.GetMostCarDetailsByBrand(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getmostcardetailsbycolor")]
+        public IActionResult GetMostCarDetailsByColor(int id)
+        {
+            var result = _carService.GetMostCarDetailsByColor(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getcarsbybrandid")]
         public IActionResult GetCarsByBrandId(int id)
         {
@@ -75,6 +109,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpGet("getcarsbycolorid")]
         public IActionResult GetCarsByColorId(int id)
         {
@@ -85,6 +120,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpPost("add")]
         public IActionResult Add(Car car)
         {
@@ -95,6 +131,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpPost("update")]
         public IActionResult Update(Car car)
         {
@@ -105,6 +142,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpPost("delete")]
         public IActionResult Delete(Car car)
         {

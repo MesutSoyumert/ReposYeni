@@ -123,7 +123,31 @@ namespace Business.Concrete
         //[PerformanceAspect(10)]
         public IDataResult<List<CarMostDetailDto>> GetMostCarDetails()
         {
-            return new SuccessDataResult<List<CarMostDetailDto>>(_carDal.GetMostCarDetails(), Messages.CarsDetailsListed);
+            return new SuccessDataResult<List<CarMostDetailDto>>(_carDal.GetMostCarDetails(), Messages.CarsMostDetailsListed);
+        }
+
+        //[SecuredOperation("car.list.getmostcardetailsbybrand,car.admin,admin")]
+        [CacheAspect]
+        //[PerformanceAspect(10)]
+        public IDataResult<List<CarMostDetailDto>> GetMostCarDetailsByBrand(int id)
+        {
+            return new SuccessDataResult<List<CarMostDetailDto>>(_carDal.GetMostCarDetailsByBrand(id), Messages.CarsMostDetailsByBrandListed);
+        }
+
+        //[SecuredOperation("car.list.getmostcardetailsbycolor,car.admin,admin")]
+        [CacheAspect]
+        //[PerformanceAspect(10)]
+        public IDataResult<List<CarMostDetailDto>> GetMostCarDetailsByColor(int id)
+        {
+            return new SuccessDataResult<List<CarMostDetailDto>>(_carDal.GetMostCarDetailsByColor(id), Messages.CarsMostDetailsByColorListed);
+        }
+
+        //[SecuredOperation("car.list.getmostcardetailsbyid,car.admin,admin")]
+        [CacheAspect]
+        //[PerformanceAspect(10)]
+        public IDataResult<CarMostDetailDto> GetMostCarDetailsById(int id)
+        {
+            return new SuccessDataResult<CarMostDetailDto>(_carDal.GetMostCarDetailsById(id), Messages.CarMostDetailsFound);
         }
 
         private IResult CheckIfBrandExists(int BrandId)
@@ -135,6 +159,7 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
         private IResult CheckIfColorExists(int ColorId)
         {
             var result = _colorService.GetById(ColorId);

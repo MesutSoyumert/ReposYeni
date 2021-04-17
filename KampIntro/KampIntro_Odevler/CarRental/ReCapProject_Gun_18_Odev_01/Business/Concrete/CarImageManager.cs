@@ -76,7 +76,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        [SecuredOperation("carimage.list.getbyid,carimage.admin,admin")]
+        //[SecuredOperation("carimage.list.getbyid,carimage.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<CarImage> Get(int id)
@@ -92,7 +92,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
-        [SecuredOperation("carimage.list.getimagesbycarid,carimage.admin,admin")]
+        //[SecuredOperation("carimage.list.getimagesbycarid,carimage.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<List<CarImage>> GetImagesByCarId(int id)
