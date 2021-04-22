@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+G:\Users\msoyu\GoogleDrive\source\MesutSoyumert\ReposYeni\Java_React_Kamp\.metadata\.plugins\org.eclipse.jdt.core
+380197650.index
+1642175237.index
