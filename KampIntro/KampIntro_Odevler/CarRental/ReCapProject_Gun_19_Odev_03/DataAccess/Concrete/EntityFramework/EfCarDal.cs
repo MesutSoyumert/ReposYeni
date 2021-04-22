@@ -14,112 +14,60 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetails()
+        public List<CarDetailDto> GetCarsDetails(Expression<Func<CarDetailDto, bool>> filter = null)
         {
             using (CarRentalContext context = new CarRentalContext())
             {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.Id
-                             join l in context.Colors on c.ColorId equals l.Id
+                var result = from car in context.Cars
 
-                             select new CarDetailDto
+                             join color in context.Colors
+                             on car.ColorId equals color.Id
+
+                             join brand in context.Brands
+                             on car.BrandId equals brand.Id
+
+                             select new CarDetailDto()
                              {
-                                 CarName = c.Description,
-                                 BrandName = b.Name,
-                                 ColorName = l.Name,
-                                 DailyPrice = c.DailyPrice,
-                                 IsRented = c.IsRented
+                                 Id = car.Id,
+                                 ColorId = color.Id,
+                                 ColorName = color.Name,
+                                 BrandId = brand.Id,
+                                 BrandName = brand.Name,
+                                 ModelYear = car.ModelYear,
+                                 DailyPrice = car.DailyPrice,
+                                 Description = car.Description,
+                                 IsRented = car.IsRented
                              };
-                return result.ToList();
+
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
             }
         }
 
-        public List<CarMostDetailDto> GetMostCarDetails()
+        public CarDetailDto GetCarDetails(int carId)
         {
             using (CarRentalContext context = new CarRentalContext())
             {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.Id
-                             join l in context.Colors on c.ColorId equals l.Id
+                var result = from car in context.Cars.Where(c => c.Id == carId)
 
-                             select new CarMostDetailDto
+                             join color in context.Colors
+                             on car.ColorId equals color.Id
+
+                             join brand in context.Brands
+                             on car.BrandId equals brand.Id
+
+                             select new CarDetailDto()
                              {
-                                 CarId = c.Id,
-                                 BrandName = b.Name,
-                                 ColorName = l.Name,
-                                 ModelYear = c.ModelYear,
-                                 DailyPrice = c.DailyPrice,
-                                 CarName = c.Description,
-                                 IsRented = c.IsRented
+                                 Id = car.Id,
+                                 ColorId = color.Id,
+                                 ColorName = color.Name,
+                                 BrandId = brand.Id,
+                                 BrandName = brand.Name,
+                                 ModelYear = car.ModelYear,
+                                 DailyPrice = car.DailyPrice,
+                                 Description = car.Description,
+                                 IsRented = car.IsRented
                              };
-                return result.ToList();
-            }
-        }
 
-        public List<CarMostDetailDto> GetMostCarDetailsByBrand(int brandId)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.Id
-                             join l in context.Colors on c.ColorId equals l.Id
-                             where c.BrandId == brandId
-
-                             select new CarMostDetailDto
-                             {
-                                 CarId = c.Id,
-                                 BrandName = b.Name,
-                                 ColorName = l.Name,
-                                 ModelYear = c.ModelYear,
-                                 DailyPrice = c.DailyPrice,
-                                 CarName = c.Description,
-                                 IsRented = c.IsRented
-                             };
-                return result.ToList();
-            }
-        }
-
-        public List<CarMostDetailDto> GetMostCarDetailsByColor(int colorId)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var result = from c in context.Cars
-                             join b in context.Brands on c.BrandId equals b.Id
-                             join l in context.Colors on c.ColorId equals l.Id
-                             where c.ColorId == colorId
-
-                             select new CarMostDetailDto
-                             {
-                                 CarId = c.Id,
-                                 BrandName = b.Name,
-                                 ColorName = l.Name,
-                                 ModelYear = c.ModelYear,
-                                 DailyPrice = c.DailyPrice,
-                                 CarName = c.Description,
-                                 IsRented = c.IsRented
-                             };
-                return result.ToList();
-            }
-        }
-        public CarMostDetailDto GetMostCarDetailsById(int carId)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var result = from c in context.Cars.Where(c => c.Id == carId)
-                             join b in context.Brands on c.BrandId equals b.Id
-                             join l in context.Colors on c.ColorId equals l.Id
-
-
-                             select new CarMostDetailDto
-                             {
-                                 CarId = c.Id,
-                                 BrandName = b.Name,
-                                 ColorName = l.Name,
-                                 ModelYear = c.ModelYear,
-                                 DailyPrice = c.DailyPrice,
-                                 CarName = c.Description,
-                                 IsRented = c.IsRented
-                             };
                 return result.SingleOrDefault();
             }
         }

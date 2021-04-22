@@ -21,6 +21,8 @@ namespace Business.Constants
         public static string CarsMostDetailsListed = "Tüm arabalar tam detaylı olarak listelendi";
         public static string CarsMostDetailsByBrandListed = "Tüm arabalar marka bazında tam detaylı olarak listelendi";
         public static string CarsMostDetailsByColorListed = "Tüm arabalar renk bazında tam detaylı olarak listelendi";
+        public static string CarsMostDetailsByColorAndByBrandListed = "İstenen renk ve marka bazında arabalar tam detaylı olarak listelendi";
+        public static string CarsMostDetailsByColorAndByBrandNotFound = "İstenen renk ve marka bazında araba bulunamadı";
 
         public static string CarNameInvalid = "Araç adı en az üç karakter uzunluğunda olmalıdır";
         public static string CarDaiyPriceZero = "Araç günlük ücreti sıfırdan büyük olmalıdır";
@@ -77,6 +79,9 @@ namespace Business.Constants
         public static string RentalNotFound = "İstenen kiralama bulunamadı";
         public static string RentalCarIsAlreadyRented = "İstenen araba zaten kiralanmış durumda, başka araba giriniz";
         public static string RentalsByCutomerIdListed = "İstenen müşterinin aktif kiralamaları listelendi";
+        public static string RentalCarNotAvailable = "Kiralanmak istenen araba uygun durumda değil";
+
+        public static string CardExist = "Kredi kartı sistemimizde zaten kayıtlı";
 
 
         public static string CarImageAdded = "Araba resmi eklendi";

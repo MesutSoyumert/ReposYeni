@@ -9,6 +9,7 @@ using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Business.Concrete
     public class CustomerManager : ICustomerService
     {
         ICustomerDal _customerDal;
+        
         //IUserService _userService;
         //IRentalService _rentalService;
         //public CustomerManager(ICustomerDal customerDal, IUserService userService, IRentalService rentalService)
@@ -30,7 +32,7 @@ namespace Business.Concrete
             //_rentalService = rentalService;
         }
 
-        [SecuredOperation("customer.add,customer.admin,admin")]
+        //[SecuredOperation("customer.add,customer.admin,admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         [CacheRemoveAspect("ICustomerService.Get")]
         //[PerformanceAspect(10)]
@@ -50,7 +52,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerAdded);
         }
 
-        [SecuredOperation("customer.delete,customer.admin,admin")]
+        //[SecuredOperation("customer.delete,customer.admin,admin")]
         [CacheRemoveAspect("ICustomerService.Get")]
         //[PerformanceAspect(10)]
         public IResult Delete(Customer customer)
@@ -64,7 +66,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerDeleted);
         }
 
-        [SecuredOperation("customer.update,customer.admin,admin")]
+        //[SecuredOperation("customer.update,customer.admin,admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         [CacheRemoveAspect("ICustomerService.Get")]
         //[PerformanceAspect(10)]
@@ -83,12 +85,12 @@ namespace Business.Concrete
         //[SecuredOperation("customer.list.getall,customer.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<Customer>> GetAll()
+        public IDataResult<List<Customer>> GetCustomers()
         {
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
-        [SecuredOperation("customer.list.getbyid,customer.admin,admin")]
+        //[SecuredOperation("customer.list.getbyid,customer.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<Customer> GetById(int id)
@@ -96,7 +98,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Customer>(_customerDal.Get(p => p.Id == id), Messages.CustomerFound);
         }
 
-        [SecuredOperation("customer.list.getcustomersbyuserid,customer.admin,admin")]
+        //[SecuredOperation("customer.list.getcustomersbyuserid,customer.admin,admin")]
         [CacheRemoveAspect("ICustomerService.Get")]
         //[PerformanceAspect(10)]
         public IDataResult<List<Customer>> GetCustomersByUserId(int id)
@@ -104,6 +106,22 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(p => p.UserId == id), Messages.CarsByBrandIdListed);
         }
 
+        //[SecuredOperation("customer.list.getcustomersbyuserid,customer.admin,admin")]
+        [CacheRemoveAspect("ICustomerService.Get")]
+        //[PerformanceAspect(10)]
+        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
+        {
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetailDto());
+        }
+
+        //[SecuredOperation("customer.list.getcustomersbyuserid,customer.admin,admin")]
+        [CacheRemoveAspect("ICustomerService.Get")]
+        //[PerformanceAspect(10)]
+        public IDataResult<List<CustomerDetailDto>> GetCustomerDetailByUserId(int userId)
+        {
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetailDto(u => u.UserId == userId));
+        }
+        
         private IResult CheckIfCustomerCompanyNameExists(string CompanyName)
         {
             var result = _customerDal.GetAll(p => p.CompanyName == CompanyName).Any();

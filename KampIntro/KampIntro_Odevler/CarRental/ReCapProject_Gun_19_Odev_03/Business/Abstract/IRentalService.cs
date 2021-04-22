@@ -13,8 +13,9 @@ namespace Business.Abstract
     {
         IDataResult<List<Rental>> GetAll();
         IDataResult<Rental> GetById(int id);
+        IDataResult<List<RentalDetailDto>> GetRentalsDetails();
+        IDataResult<RentalDetailDto> GetRentalDetailsById(int id);
         IDataResult<List<Rental>> GetRentalsByCustomerId(int id);
-        IDataResult<List<RentalDetailDto>> GetRentalDetails();
         IResult Add(Rental rental);
         IResult Update(Rental rental);
         IResult Delete(Rental rental);

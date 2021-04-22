@@ -48,7 +48,7 @@ namespace Business.Concrete
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
-        
+
         //[SecuredOperation("car.delete,car.admin,admin")]
         [CacheRemoveAspect("ICarService.Get")]
         //[PerformanceAspect(10)]
@@ -73,7 +73,7 @@ namespace Business.Concrete
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
-        
+
         //[SecuredOperation("car.list.getall,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
@@ -91,65 +91,65 @@ namespace Business.Concrete
         //[PerformanceAspect(10)]
         public IDataResult<Car> GetById(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(p=>p.Id == id), Messages.CarFound);
+            return new SuccessDataResult<Car>(_carDal.Get(p => p.Id == id), Messages.CarFound);
         }
 
         //[SecuredOperation("car.list.getcardetails,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<CarDetailDto> GetCarDetails(int carId)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsDetailsListed);
+            return new SuccessDataResult<CarDetailDto>(_carDal.GetCarDetails(carId));
         }
 
         //[SecuredOperation("car.list.getcarsbybrandid,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<Car>> GetCarsByBrandId(int id)
+        public IDataResult<List<CarDetailDto>> GetByBrand(int brandId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id), Messages.CarsByBrandIdListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetails(c => c.BrandId == brandId));
         }
 
         //[SecuredOperation("car.list.getcarsbycolorid,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<Car>> GetCarsByColorId(int id)
+        public IDataResult<List<CarDetailDto>> GetByColor(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == id), Messages.CarsByColorIdListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetails(c => c.ColorId == colorId));
         }
 
-        //[SecuredOperation("car.list.getmostcardetails,car.admin,admin")]
+        //[SecuredOperation("car.list.getcarswithdetails,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<CarMostDetailDto>> GetMostCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarsWithDetails()
         {
-            return new SuccessDataResult<List<CarMostDetailDto>>(_carDal.GetMostCarDetails(), Messages.CarsMostDetailsListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetails());
         }
 
-        //[SecuredOperation("car.list.getmostcardetailsbybrand,car.admin,admin")]
+        //[SecuredOperation("car.list.getcarsbybrandandcolor,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<CarMostDetailDto>> GetMostCarDetailsByBrand(int id)
+        public IDataResult<List<CarDetailDto>> GetCarsByBrandAndColor(int brandId, int colorId)
         {
-            return new SuccessDataResult<List<CarMostDetailDto>>(_carDal.GetMostCarDetailsByBrand(id), Messages.CarsMostDetailsByBrandListed);
+            List<CarDetailDto> car = (_carDal.GetCarsDetails(c => c.BrandId == brandId && c.ColorId == colorId));
+
+            if (car == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.CarsMostDetailsByColorAndByBrandNotFound);
+            }
+
+            return new SuccessDataResult<List<CarDetailDto>>(car, Messages.CarsMostDetailsByColorAndByBrandListed);
         }
 
-        //[SecuredOperation("car.list.getmostcardetailsbycolor,car.admin,admin")]
+        //[SecuredOperation("car.list.getcarsbydailyprice,car.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<CarMostDetailDto>> GetMostCarDetailsByColor(int id)
+        public IDataResult<List<Car>> GetByDailyPrice(decimal min, decimal max)
         {
-            return new SuccessDataResult<List<CarMostDetailDto>>(_carDal.GetMostCarDetailsByColor(id), Messages.CarsMostDetailsByColorListed);
+            {
+                return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
+            }
         }
-
-        //[SecuredOperation("car.list.getmostcardetailsbyid,car.admin,admin")]
-        [CacheAspect]
-        //[PerformanceAspect(10)]
-        public IDataResult<CarMostDetailDto> GetMostCarDetailsById(int id)
-        {
-            return new SuccessDataResult<CarMostDetailDto>(_carDal.GetMostCarDetailsById(id), Messages.CarMostDetailsFound);
-        }
-
         private IResult CheckIfBrandExists(int BrandId)
         {
             var result = _brandService.GetById(BrandId);

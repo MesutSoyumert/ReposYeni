@@ -30,7 +30,7 @@ namespace Business.Concrete
             _customerService = customerService;
         }
 
-        [SecuredOperation("rental.add,rental.admin,admin")]
+        //[SecuredOperation("rental.add,rental.admin,admin")]
         [ValidationAspect(typeof(RentalValidator))]
         [CacheRemoveAspect("IRentalService.Get")]
         //[PerformanceAspect(10)]
@@ -47,7 +47,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalAdded);
         }
 
-        [SecuredOperation("rental.delete,rental.admin,admin")]
+        //[SecuredOperation("rental.delete,rental.admin,admin")]
         [CacheRemoveAspect("IRentalService.Get")]
         //[PerformanceAspect(10)]
         public IResult Delete(Rental rental)
@@ -56,14 +56,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-        [SecuredOperation("rental.update,rental.admin,admin")]
+        //[SecuredOperation("rental.update,rental.admin,admin")]
         [ValidationAspect(typeof(RentalValidator))]
         [CacheRemoveAspect("IRentalService.Get")]
         //[PerformanceAspect(10)]
         public IResult Update(Rental rental)
         {
             IResult result = BusinessRules.Run(CheckIfCarExists(rental.CarId),
-                                               CheckIfRentalCarIsAlreadyRented(rental.CarId),
                                                CheckIfCustomerExists(rental.CustomerId));
             if (result != null)
             {
@@ -81,7 +80,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
         }
 
-        [SecuredOperation("rental.list.getbyid,rental.admin,admin")]
+        //[SecuredOperation("rental.list.getbyid,rental.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<Rental> GetById(int id)
@@ -89,20 +88,30 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(p => p.Id == id), Messages.RentalFound);
         }
 
-        [SecuredOperation("rental.list.getrentalsbycustomerid,rental.admin,admin")]
+        //[SecuredOperation("rental.list.getrentalsbycustomerid,rental.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<List<Rental>> GetRentalsByCustomerId(int id)
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(p => p.CustomerId == id && p.ReturnDate == new DateTime(0001, 01, 01, 0, 0, 0)), Messages.RentalsByCutomerIdListed);
         }
+
+        //[SecuredOperation("rental.list.getrentalsdetails,rental.admin,admin")]
+        [CacheAspect]
+        //[PerformanceAspect(10)]
+        public IDataResult<List<RentalDetailDto>> GetRentalsDetails()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalsDetails());
+        }
+
         //[SecuredOperation("rental.list.getrentaldetails,rental.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
+        public IDataResult<RentalDetailDto> GetRentalDetailsById(int id)
         {
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.CarsDetailsListed);
+            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDetails(id));
         }
+
         private IResult CheckIfCarExists(int CarId)
         {
             var result = _carService.GetById(CarId);

@@ -14,6 +14,7 @@ namespace WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         IRentalService _rentalService;
+        IPaymentService _paymentService;
 
         public RentalsController(IRentalService rentalService)
         {
@@ -33,7 +34,7 @@ namespace WebAPI.Controllers
         [HttpGet("getrentaldetails")]
         public IActionResult GetRentalDetails()
         {
-            var result = _rentalService.GetRentalDetails();
+            var result = _rentalService.GetRentalsDetails();
             if (result.Success)
             {
                 return Ok(result);
@@ -62,6 +63,34 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getrentaldetailsbyid")]
+        public IActionResult GetRentalDetailsById(int id)
+        {
+
+            var result = _rentalService.GetRentalDetailsById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("payment")]
+        public IActionResult PaymentTest(Payment amount)
+        {
+            var result = "Ok";
+            return Ok(result);
+            //var result = _paymentService.MakePayment(amount);
+            //if (result.Success)
+            //{
+            //    return Ok(result);
+            //}
+
+            //return BadRequest(result.Message);
+
+        }
+
 
         [HttpPost("add")]
         public IActionResult Add(Rental rental)

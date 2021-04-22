@@ -8,8 +8,10 @@ using Core.CrossCuttingConcerns.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
+using Core.Utilities.Security.Hashing;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,7 @@ namespace Business.Concrete
             //_customerService = customerService;
         }
 
-        [SecuredOperation("user.add,user.admin,admin")]
+        //[SecuredOperation("user.add,user.admin,admin")]
         [ValidationAspect(typeof(UserValidator))]
         [CacheRemoveAspect("IUserService.Get")]
         //[PerformanceAspect(10)]
@@ -45,7 +47,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserAdded);
         }
 
-        [SecuredOperation("user.delete,user.admin,admin")]
+        //[SecuredOperation("user.delete,user.admin,admin")]
         [CacheRemoveAspect("IUserService.Get")]
         //[PerformanceAspect(10)]
         public IResult Delete(User user)
@@ -54,7 +56,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
-        [SecuredOperation("user.update,user.admin,admin")]
+        //[SecuredOperation("user.update,user.admin,admin")]
         [ValidationAspect(typeof(UserValidator))]
         [CacheRemoveAspect("IUserService.Get")]
         //[PerformanceAspect(10)]
@@ -77,7 +79,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
         }
 
-        [SecuredOperation("user.list.getbyid,user.admin,admin")]
+        //[SecuredOperation("user.list.getbyid,user.admin,admin")]
         [CacheAspect]
         //[PerformanceAspect(10)]
         public IDataResult<User> GetById(int id)
@@ -86,15 +88,15 @@ namespace Business.Concrete
         }
 
         //[SecuredOperation("user.list.getclaims, user.admin, admin")]// Bunu düşün
-        public List<OperationClaim> GetClaims(User user)
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
-            return _userDal.GetClaims(user);
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
-        
+
         //[SecuredOperation("user.list.getbymail, user.admin, admin")]// Bunu düşün
-        public User GetByMail(string email)
+        IDataResult<User> IUserService.GetByMail(string email)
         {
-            return _userDal.Get(u => u.Email == email);
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
         private IResult CheckIfUserCredentialsExists(string FirstName, string LastName, string Email)
         {
@@ -105,6 +107,29 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+        //[SecuredOperation("user.list.getbymail, user.admin, admin")]// Bunu düşün
+        public IResult EditProfile(UserForUpdateDto user)
+        {
+            byte[] passwordHash;
+            byte[] passwordSalt;
+
+            HashingHelper.CreatePasswordHash(user.Password, out passwordHash, out passwordSalt);
+
+            var userInfo = new User()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Status = true
+            };
+
+            _userDal.Update(userInfo);
+            return new SuccessResult();
+        }
+
         //private IResult CheckIfUserHasActiveCustomerExists(int id)
         //{
         //    var result = _customerService.GetCustomersByUserId(id);
