@@ -1,0 +1,6 @@
+      colorId:["",Validators.required],
+      brandId:["",Validators.required],
+      modelYear:["",Validators.required],
+      dailyPrice:["",Validators.required],
+      description:["",Validators.required],
+      isRented:["",Validators.required]
