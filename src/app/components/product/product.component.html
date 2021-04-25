@@ -31,8 +31,8 @@
       <td>{{ product.unitPrice |currency }}</td>
       <td>{{ product.unitPrice |vatAdded:18 | currency }}</td>
       <td>{{ product.unitsInStock }}</td>
-      <td><button (click)="addToCart(product)" class = "btn btn-success">Sepete ekle </button></td>
-
+      <td><button (click)="addToCart(product)" 
+        type="button" class="btn btn-success">Sepete ekle</button></td>
     </tr>
   </tbody>
   
