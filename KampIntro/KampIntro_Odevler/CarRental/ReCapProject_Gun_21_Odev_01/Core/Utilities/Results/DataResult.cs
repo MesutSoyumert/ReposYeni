@@ -10,7 +10,6 @@ namespace Core.Utilities.Results
         {
             Data = data;
         }
-
         public DataResult(T data, bool success) : base(success)
         {
             Data = data;
