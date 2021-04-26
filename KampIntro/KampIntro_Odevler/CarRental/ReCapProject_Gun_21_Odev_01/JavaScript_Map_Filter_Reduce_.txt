@@ -1,4 +1,0 @@
-map() bir diziyi alıp başka bir diziye dönüştürür. Javascript dokümanında ise map() şu şekilde tanımlanıyor.
-“Dizinin her bir elemanı için; parametre olarak verilen (callback) fonksiyonu çağırır ve fonksiyonda belirtilen işlemlere göre yeni bir dizi(array) oluşturur.”
-filter() metodu, parametre olarak verilen dizi içerisinde bulunan eleman ile işlem yapar ve true dönen tüm değerleri yeni dizi oluşturarak geri döndürür. Bu sayede çeşitli filtrelemeler yapılmasına imkan sağlar..
-Reduce fonksiyonu accumulator yapısında bir fonksiyondur yani üzerinde kullanılan veriyi biriktirerek tek bir değere indirgemeye çalışır. 2 parametre alır bunlardan biri callback fonksiyonu diğeri ilk değerdir. Eğer ilk değer varsa accumulator ona eşit başlar yoksa eğer reduce kullanılan array'in ilk elemanına eşit başlar.
