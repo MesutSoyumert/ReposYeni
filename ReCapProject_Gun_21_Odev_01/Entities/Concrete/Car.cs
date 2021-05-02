@@ -11,5 +11,6 @@ namespace Entities.Concrete
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
         public bool IsRented { get; set; }
+        public int? MinFindexScore { get; set; }
     }
 }

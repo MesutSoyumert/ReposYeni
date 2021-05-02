@@ -36,7 +36,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 IsRented = car.IsRented
+                                 IsRented = car.IsRented,
+                                 MinFindexScore = car.MinFindexScore
                              };
 
                 return filter == null ? result.ToList() : result.Where(filter).ToList();
@@ -65,7 +66,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 IsRented = car.IsRented
+                                 IsRented = car.IsRented,
+                                 MinFindexScore = car.MinFindexScore
                              };
 
                 return result.SingleOrDefault();

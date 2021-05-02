@@ -25,12 +25,14 @@ namespace Business.Concrete
         ICarDal _carDal;
         IColorService _colorService;
         IBrandService _brandService;
+        Random _random;
 
         public CarManager(ICarDal carDal, IColorService colorService, IBrandService brandService)
         {
             _carDal = carDal;
             _colorService = colorService;
             _brandService = brandService;
+            _random = new Random();
         }
 
         //[SecuredOperation("car.add,car.admin,admin")]
@@ -45,6 +47,7 @@ namespace Business.Concrete
             {
                 return result;
             }
+            car.MinFindexScore = _random.Next(0, 1900);
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
@@ -70,6 +73,7 @@ namespace Business.Concrete
             {
                 return result;
             }
+            car.MinFindexScore = _random.Next(0, 1900);
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }

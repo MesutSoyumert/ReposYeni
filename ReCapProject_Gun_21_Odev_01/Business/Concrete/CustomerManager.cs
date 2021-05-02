@@ -21,13 +21,15 @@ namespace Business.Concrete
     public class CustomerManager : ICustomerService
     {
         ICustomerDal _customerDal;
-        
+        Random _random;
+
         //IUserService _userService;
         //IRentalService _rentalService;
         //public CustomerManager(ICustomerDal customerDal, IUserService userService, IRentalService rentalService)
         public CustomerManager(ICustomerDal customerDal)
         {
             _customerDal = customerDal;
+            _random = new Random();
             //_userService = userService;
             //_rentalService = rentalService;
         }
@@ -48,6 +50,7 @@ namespace Business.Concrete
             {
                 return result;
             }
+            customer.FindexScore = _random.Next(0, 1900);
             _customerDal.Add(customer);
             return new SuccessResult(Messages.CustomerAdded);
         }
@@ -78,6 +81,7 @@ namespace Business.Concrete
             {
                 return result;
             }
+            customer.FindexScore = _random.Next(0, 1900);
             _customerDal.Update(customer);
             return new SuccessResult(Messages.CustomerUpdated);
         }

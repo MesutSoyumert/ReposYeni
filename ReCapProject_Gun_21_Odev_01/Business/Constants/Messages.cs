@@ -80,6 +80,7 @@ namespace Business.Constants
         public static string RentalCarIsAlreadyRented = "İstenen araba zaten kiralanmış durumda, başka araba giriniz";
         public static string RentalsByCutomerIdListed = "İstenen müşterinin aktif kiralamaları listelendi";
         public static string RentalCarNotAvailable = "Kiralanmak istenen araba uygun durumda değil";
+        public static string RentalNotEnoughFindexScore = "Kiralanmak istenen araba için Findex skorunuz yeterli değil";
 
         public static string CardExist = "Kredi kartı sistemimizde zaten kayıtlı";
 
