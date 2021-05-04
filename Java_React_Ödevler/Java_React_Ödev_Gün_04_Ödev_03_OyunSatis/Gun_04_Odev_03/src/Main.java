@@ -5,7 +5,7 @@ import java.util.Date;
 public class Main {
 
 	public static void main(String[] args) {
-		String secim = "6";
+		String secim = "2";
 		
 		switch (secim)
         {
@@ -24,7 +24,7 @@ public class Main {
                                 
                 break;
             case "2":
-                BasePlayerManager playerManagerUpdate = new PlayerManager(new MernisServiceAdapter());
+            	BasePlayerManager playerManagerUpdate = new PlayerManager(new MernisServiceAdapter());
 
                 Player playerUpdate = new Player();
                 
@@ -43,6 +43,11 @@ public class Main {
                 Player playerDelete = new Player();
                 
                 playerDelete.setId(1);
+                playerDelete.setDateOfBirth("29/11/1960");
+                playerDelete.setFirstName("Mesut");
+                playerDelete.setLastName("Soyumert");
+                playerDelete.setNationalityId("10987654321");
+                
                 playerManagerDelete.delete(playerDelete);
 
                 break;

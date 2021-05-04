@@ -14,6 +14,7 @@ public class PlayerManager extends BasePlayerManager {
         if (this.playerCheckService.CheckIfRealPerson(player))
         {
             super.add(player);
+            System.out.println("Oyuncu veri tabanýna eklendi : " + player.getFirstName() + " " + player.getLastName());
         }
         else
         {
@@ -24,11 +25,12 @@ public class PlayerManager extends BasePlayerManager {
     }
     
     
-    public void Update(Player player)
+    public void update(Player player)
     {
         if (this.playerCheckService.CheckIfRealPerson(player))
         {
             super.update(player);
+            System.out.println("Oyuncu bilgileri güncellendi : " + player.getFirstName() + " " + player.getLastName());
         }
         else
         {
@@ -41,7 +43,8 @@ public class PlayerManager extends BasePlayerManager {
     public void delete(Player player)
     {
             super.delete(player);
-            System.out.println("Oyuncu kaydý sistemden silindi : " + 
+            
+            System.out.println("Oyuncu veri tabanýndan silindi : " + 
 					player.getId() + " " + player.getFirstName() + " " + player.getLastName());
     }
 }

@@ -17,10 +17,13 @@ public class SaleManager extends BaseSaleManager {
         if (this.playerExistService.CheckIfPlayerExist(player) == true)
         {
                 super.add(sale, player);
-                System.out.println("Kampanyalý satýþ gerçekleþtirildi" + " " + player.getFirstName() + " " +
-                															   player.getLastName()  + " " +
-                															   sale.getName()		 + " " +
-                															   sale.getDiscountRate());
+                System.out.println("Kampanyalý oyun satýþý gerçekleþtirildi" + " " + 
+					                player.getFirstName() + " " +
+					                player.getLastName()  + " " +
+					                sale.getId() 		  + " " +
+					                sale.getPlayerId() + " " +
+					                sale.getName()		 + " " +
+					                sale.getDiscountRate());
                 
             }
         else
