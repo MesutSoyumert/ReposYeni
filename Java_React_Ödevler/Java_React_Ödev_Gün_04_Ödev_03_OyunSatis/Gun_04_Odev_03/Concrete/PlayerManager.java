@@ -7,6 +7,8 @@ public class PlayerManager extends BasePlayerManager {
     {
         this.playerCheckService = playerCheckService;
     }
+   
+    @Override
     public void add(Player player)
     {
         if (this.playerCheckService.CheckIfRealPerson(player))
@@ -20,6 +22,8 @@ public class PlayerManager extends BasePlayerManager {
 
         }
     }
+    
+    
     public void Update(Player player)
     {
         if (this.playerCheckService.CheckIfRealPerson(player))
@@ -32,6 +36,8 @@ public class PlayerManager extends BasePlayerManager {
 					player.getId() + " " + player.getFirstName() + " " + player.getLastName());
         }
     }
+    
+    @Override
     public void delete(Player player)
     {
             super.delete(player);

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Main {
 
 	public static void main(String[] args) {
-		String secim = "1";
+		String secim = "6";
 		
 		switch (secim)
         {
@@ -14,7 +14,7 @@ public class Main {
                 
                 Player playerAdd = new Player();
                 
-                playerAdd.setId(2);
+                playerAdd.setId(1);
                 playerAdd.setDateOfBirth("29/11/1960");
                 playerAdd.setFirstName("Mesut");
                 playerAdd.setLastName("Soyumert");
@@ -28,7 +28,7 @@ public class Main {
 
                 Player playerUpdate = new Player();
                 
-                playerUpdate.setId(1);
+                playerUpdate.setId(2);
                 playerUpdate.setDateOfBirth("29/11/1960");
                 playerUpdate.setFirstName("Mesut");
                 playerUpdate.setLastName("Soyumert");

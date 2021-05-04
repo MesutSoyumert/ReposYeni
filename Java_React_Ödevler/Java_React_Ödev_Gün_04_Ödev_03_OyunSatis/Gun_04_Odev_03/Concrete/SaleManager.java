@@ -9,6 +9,8 @@ public class SaleManager extends BaseSaleManager {
     {
         this.playerExistService = playerExistService;
     }
+    
+    @Override
     public void add(Sale sale, Player player)
     {
 
