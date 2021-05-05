@@ -5,7 +5,7 @@ import java.util.Date;
 public class Main {
 
 	public static void main(String[] args) {
-		String secim = "2";
+		String secim = "1";
 		
 		switch (secim)
         {
@@ -15,7 +15,7 @@ public class Main {
                 Player playerAdd = new Player();
                 
                 playerAdd.setId(1);
-                playerAdd.setDateOfBirth("29/11/1960");
+                playerAdd.setDateOfBirth("1960");
                 playerAdd.setFirstName("Mesut");
                 playerAdd.setLastName("Soyumert");
                 playerAdd.setNationalityId("12345678901");
@@ -29,7 +29,7 @@ public class Main {
                 Player playerUpdate = new Player();
                 
                 playerUpdate.setId(2);
-                playerUpdate.setDateOfBirth("29/11/1960");
+                playerUpdate.setDateOfBirth("1960");
                 playerUpdate.setFirstName("Mesut");
                 playerUpdate.setLastName("Soyumert");
                 playerUpdate.setNationalityId("10987654321");
@@ -43,7 +43,7 @@ public class Main {
                 Player playerDelete = new Player();
                 
                 playerDelete.setId(1);
-                playerDelete.setDateOfBirth("29/11/1960");
+                playerDelete.setDateOfBirth("1960");
                 playerDelete.setFirstName("Mesut");
                 playerDelete.setLastName("Soyumert");
                 playerDelete.setNationalityId("10987654321");
@@ -68,7 +68,7 @@ public class Main {
                 Player playerSale = new Player();
                 
                 playerSale.setId(playerId);
-                playerSale.setDateOfBirth("29/11/1960");
+                playerSale.setDateOfBirth("1960");
                 playerSale.setFirstName("Mesut");
                 playerSale.setLastName("Soyumert");
                 playerSale.setNationalityId("10987654321");
@@ -126,7 +126,7 @@ public class Main {
                 Player playerSaleWithCampaign = new Player();
                 
                 playerSaleWithCampaign.setId(playerIdCampaign);
-                playerSaleWithCampaign.setDateOfBirth("29/11/1960");
+                playerSaleWithCampaign.setDateOfBirth("1960");
                 playerSaleWithCampaign.setFirstName("Mesut");
                 playerSaleWithCampaign.setLastName("Soyumert");
                 playerSaleWithCampaign.setNationalityId("10987654321");

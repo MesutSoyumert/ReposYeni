@@ -10,5 +10,6 @@
 	<classpathentry kind="src" path="Adapters"/>
 	<classpathentry kind="src" path="Concrete"/>
 	<classpathentry kind="src" path="Entities"/>
+	<classpathentry exported="true" kind="src" path="/MernisTest"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
