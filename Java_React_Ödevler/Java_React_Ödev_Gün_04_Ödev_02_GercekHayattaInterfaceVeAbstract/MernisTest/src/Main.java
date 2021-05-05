@@ -8,7 +8,7 @@ public class Main {
 		KPSPublicSoapProxy kpsPublic = new KPSPublicSoapProxy();
 		
 		boolean result = kpsPublic.TCKimlikNoDogrula(
-				Long.parseLong("13952671532"),
+				Long.parseLong("12345678901"),
 				"MESUT", 
 				"SOYUMERT",
 				1960);
