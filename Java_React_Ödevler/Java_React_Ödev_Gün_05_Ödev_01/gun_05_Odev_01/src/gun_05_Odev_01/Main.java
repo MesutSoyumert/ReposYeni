@@ -1,6 +1,5 @@
 package gun_05_Odev_01;
 
-import gun_05_Odev_01.business.abstracts.ConfirmationByEmailService;
 import gun_05_Odev_01.business.abstracts.UserService;
 import gun_05_Odev_01.business.concretes.UserManager;
 import gun_05_Odev_01.core.RegisterWithGoogleManagerAdapter;

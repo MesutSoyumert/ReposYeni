@@ -25,11 +25,8 @@ public class UserManager implements UserService {
 
 	@Override
 	public void add(User user) {
-		// E-Posta daha önce kullanýlmamýþ olmalýdýr.
-		// Üyelik sonucu kullanýcýya doðrulama e-postasý gönderilmelidir. (Simulasyon)
-		// Doðrulama linki týklandýðýnda üyelik tamamlanmalýdýr. (Simulasyon)
-		// Hatalý veya baþarýlý durumda kullanýcý bilgilendirilmelidir.
-		// 
+
+		 
 		String registerInfoValidationMessage = null;
 		
 		registerInfoValidationMessage = CheckIfRegisterInfoEmpty(user, registerInfoValidationMessage);
@@ -83,7 +80,7 @@ public class UserManager implements UserService {
 																
 							String eMail = user.getEmail();
 							
-							if (userDao.getByEmail(eMail) != null )  {
+							if (userDao.getUserByEmail(eMail) != null )  {
 								registerInfoValidationMessage = "E-posta adresiniz sistemde  kayýtlýdýr, baþka bir e-posta hesabý giriniz " + " " +
 																 user.getEmail() + " " +
 																 eMail;
@@ -118,25 +115,21 @@ public class UserManager implements UserService {
 	@Override
 	public User get(int id) {
 		
-		this.userDao.get(id);
 		
-		return null;
+		
+		return this.userDao.get(id);
 	}
 
 	@Override
-	public User getByEmail(String email) {
-		
-		this.userDao.getByEmail(email);
-				
-		return null;
+	public User getUserByEmail(String email) {
+					
+		return this.userDao.getUserByEmail(email);
 	}
 
 	@Override
 	public List<User> getall() {
-		
-		this.userDao.getall();
-		
-		return null;
+						
+		return this.userDao.getall();
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class HibernateUserDao implements UserDao {
 	}
 
 	@Override
-	public User getByEmail(String email) {
+	public User getUserByEmail(String email) {
 		// TODO Auto-generated method stub
 		return null;
 	}
