@@ -4,11 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name="system_employees")
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class SystemEmployee  extends BaseUser {
 	
@@ -20,14 +24,5 @@ public class SystemEmployee  extends BaseUser {
 		
 	@Column(name="job_title")
 	private String jobTitle;
-	
-	public SystemEmployee() {}
-
-	public SystemEmployee(String firstName, String lastName, String jobTitle) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.jobTitle = jobTitle;
-	}
 	
 }

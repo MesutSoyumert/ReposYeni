@@ -3,22 +3,27 @@ package soyumert.hrms.entities.concretes;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name="base_user")
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class BaseUser {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	
@@ -27,14 +32,5 @@ public class BaseUser {
 	
 	@Column(name="password")
 	private String password;
-	
-	public BaseUser() {}
-
-	public BaseUser(int id, String emailAddress, String password) {
-		super();
-		this.id = id;
-		this.emailAddress = emailAddress;
-		this.password = password;
-	}
-		
+			
 }

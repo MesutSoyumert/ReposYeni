@@ -5,11 +5,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name="job_seekers")
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class JobSeeker extends BaseUser {
 	
@@ -36,23 +40,5 @@ public class JobSeeker extends BaseUser {
 	
 	@Column(name="email_validation_date")
 	private Date emailValidationDate;
-	
-	
-	public JobSeeker() {}
-
-
-	public JobSeeker(String firstName, String lastName, String nationalityId,
-			boolean isNationalityIdValidationPerformed, Date nationalityIdValidationDate, boolean isNationalityIdValid,
-			boolean isEmailValidationPerformed, Date emailValidationDate) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.nationalityId = nationalityId;
-		this.isNationalityIdValidationPerformed = isNationalityIdValidationPerformed;
-		this.nationalityIdValidationDate = nationalityIdValidationDate;
-		this.isNationalityIdValid = isNationalityIdValid;
-		this.isEmailValidationPerformed = isEmailValidationPerformed;
-		this.emailValidationDate = emailValidationDate;
-	}
 	
 }

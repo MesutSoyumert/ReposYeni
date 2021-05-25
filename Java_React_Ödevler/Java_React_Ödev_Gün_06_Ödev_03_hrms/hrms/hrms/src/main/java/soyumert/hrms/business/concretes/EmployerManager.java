@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import soyumert.hrms.business.abstracts.EmployerService;
+import soyumert.hrms.core.utilities.results.DataResult;
+import soyumert.hrms.core.utilities.results.Result;
+import soyumert.hrms.core.utilities.results.SuccessDataResult;
+import soyumert.hrms.core.utilities.results.SuccessResult;
 import soyumert.hrms.dataAccess.abstracts.EmployerDao;
 import soyumert.hrms.entities.concretes.Employer;
 
@@ -21,9 +25,28 @@ public class EmployerManager implements EmployerService {
 	}
 
 	@Override
-	public List<Employer> getAll() {
+	public DataResult<List<Employer>> getAll() {
 
-		return this.employerDao.findAll();
+		return new SuccessDataResult<List<Employer>>
+				(this.employerDao.findAll(), "İşverenler listelendi");
+	}
+
+	@Override
+	public Result add(Employer employer) {
+		this.employerDao.save(employer);
+		return new SuccessResult("İşveren eklendi");
+	}
+
+	@Override
+	public Result delete(Employer employer) {
+		this.employerDao.delete(employer);
+		return new SuccessResult("İşveren silindi");
+	}
+
+	@Override
+	public Result update(Employer employer) {
+		this.employerDao.save(employer);
+		return new SuccessResult("İşveren bilgileri güncellendi");
 	}
 
 }
