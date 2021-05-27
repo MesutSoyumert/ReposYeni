@@ -12,6 +12,10 @@ public interface EmployerService {
 	
 	Result add(Employer employer);
 	
+	Result performEmployerEmailValidationByEmployer(Employer employer);
+	
+	Result performEmployerEmailValidationBySystemEmployee(Employer employer);
+	
 	Result delete(Employer employer);
 	
 	Result update(Employer employer);

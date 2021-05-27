@@ -36,6 +36,12 @@ public class JobSeekersController {
 		
 		return this.jobSeekerService.add(jobSeeker);
 	}
+	
+	@PostMapping("/performjobseekeremailvalidation")
+	public Result performJobSeekerEmailValidation(@RequestBody JobSeeker jobSeeker) {
+		
+		return this.jobSeekerService.performJobSeekerEmailValidation(jobSeeker);
+	}
 
 	@PostMapping("/delete")
 	public Result delete(@RequestBody JobSeeker jobSeeker) {

@@ -12,6 +12,8 @@ public interface JobSeekerService {
 	
 	Result add(JobSeeker jobSeeker);
 	
+	Result performJobSeekerEmailValidation(JobSeeker jobSeeker);
+	
 	Result delete(JobSeeker jobSeeker);
 	
 	Result update(JobSeeker jobSeeker);

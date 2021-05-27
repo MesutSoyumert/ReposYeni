@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import soyumert.hrms.business.abstracts.GeneralJobPositionService;
 import soyumert.hrms.core.utilities.results.DataResult;
+import soyumert.hrms.core.utilities.results.ErrorResult;
 import soyumert.hrms.core.utilities.results.Result;
 import soyumert.hrms.core.utilities.results.SuccessDataResult;
 import soyumert.hrms.core.utilities.results.SuccessResult;
@@ -33,11 +34,16 @@ public class GeneralJobPositionManager implements GeneralJobPositionService {
 
 	@Override
 	public Result add(GeneralJobPosition generalJobPosition) {
+				
+		if (checkIfGeneralJobPositionExist(generalJobPosition)) {
+			return new ErrorResult("Eklenmek istenen genel iş pozisyonu mevcut, başka genel iş pozisyonu giriniz");
+		} else {
+			this.generalJobPositionDao.save(generalJobPosition);
+			return new SuccessResult("Genel iş pozisyonu eklendi");
+		}
 		
-		this.generalJobPositionDao.save(generalJobPosition);
-		return new SuccessResult("Genel iş pozisyonu eklendi");
 	}
-
+	
 	@Override
 	public Result delete(GeneralJobPosition generalJobPosition) {
 		
@@ -48,8 +54,19 @@ public class GeneralJobPositionManager implements GeneralJobPositionService {
 	@Override
 	public Result update(GeneralJobPosition generalJobPosition) {
 		
-		this.generalJobPositionDao.save(generalJobPosition);
-		return new SuccessResult("Genel iş pozisyonu bilgileri güncellendi");
+		//Burada mantık hatası var, değişiklik yapılmazsa kendisini mevcut diye güncellemiyor
+		if (checkIfGeneralJobPositionExist(generalJobPosition)) {
+			return new ErrorResult("Güncellenmek istenen genel iş pozisyonu mevcut, başka genel iş pozisyonu giriniz");
+		} else {
+			this.generalJobPositionDao.save(generalJobPosition);
+			return new SuccessResult("Genel iş pozisyonu güncellendi");
+		}
+	}
+	
+	private boolean checkIfGeneralJobPositionExist(GeneralJobPosition generalJobPosition) {
+		
+		return this.generalJobPositionDao.existsGeneralJobPositionByJobPositionName(generalJobPosition.getJobPositionName());
+		
 	}
 
 }

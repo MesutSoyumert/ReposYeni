@@ -6,4 +6,8 @@ import soyumert.hrms.entities.concretes.JobSeeker;
 
 public interface JobSeekerDao extends JpaRepository<JobSeeker,Integer> {
 
+	boolean existsJobSeekerByNationalityId(String nationalityId);
+
+	boolean existsJobSeekerByEmailAddress(String emailAddress);
+
 }

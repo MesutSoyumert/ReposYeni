@@ -37,6 +37,18 @@ public class EmployersController {
 		return this.employerService.add(employer);
 	}
 	
+	@PostMapping("/performemployeremailvalidationbyemployer")
+	public Result performEmployerEmailValidationByEmployer(@RequestBody Employer employer) {
+		
+		return this.employerService.performEmployerEmailValidationByEmployer(employer);
+	}
+
+	@PostMapping("/performemployeremailvalidationbysystememployee")
+	public Result performEmployerEmailValidationBySystemEmployee(@RequestBody Employer employer) {
+		
+		return this.employerService.performEmployerEmailValidationBySystemEmployee(employer);
+	}
+	
 	@PostMapping("/delete")
 	public Result delete(@RequestBody Employer employer) {
 		

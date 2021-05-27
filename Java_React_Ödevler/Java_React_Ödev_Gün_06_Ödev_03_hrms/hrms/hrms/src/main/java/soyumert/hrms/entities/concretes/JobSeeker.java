@@ -32,9 +32,6 @@ public class JobSeeker extends BaseUser {
 	@Column(name="nationality_id_validation_date")
 	private Date nationalityIdValidationDate;
 	
-	@Column(name="is_nationality_id_valid")
-	private boolean isNationalityIdValid; 
-	
 	@Column(name="is_email_validation_performed")
 	private boolean isEmailValidationPerformed;
 	
