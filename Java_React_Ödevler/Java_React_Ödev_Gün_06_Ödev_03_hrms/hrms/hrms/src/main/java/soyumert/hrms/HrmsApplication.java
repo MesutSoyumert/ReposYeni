@@ -1,5 +1,7 @@
 package soyumert.hrms;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,14 @@ public class HrmsApplication {
 		SpringApplication.run(HrmsApplication.class, args);
 	}
 
+	@Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration()
+            .setMatchingStrategy(MatchingStrategies.STRICT);
+        return modelMapper;
+    }
+	
 	@Bean
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  

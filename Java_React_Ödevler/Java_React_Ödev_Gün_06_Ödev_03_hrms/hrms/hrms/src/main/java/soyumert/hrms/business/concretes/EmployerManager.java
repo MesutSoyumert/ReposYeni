@@ -97,9 +97,7 @@ public class EmployerManager implements EmployerService {
 			else if (checkIfEmployerEmailExist(employer)) {
 				notValidMessage = "E-posta adresiniz sistemde kayıtlı, başka e-posta adresi giriniz";
 			} else if (employer.getPassword() == null) {
-				notValidMessage = "Parolanızı girmeniz gereklidir";
-				} else if (employer.getPasswordRepeat() == null) {
-					notValidMessage = "Parola tekrarını girmeniz gereklidir";
+				notValidMessage = "Parolanızı girmeniz gereklidir";				
 					} else if (employer.getCompanyName() == null) {
 						notValidMessage = "Şirket Adını girmeniz gereklidir";
 						} else if (employer.getCompanyWebSiteDomain() == null) {

@@ -84,8 +84,7 @@ import soyumert.hrms.entities.concretes.JobSeeker;
 			else if (checkIfJobSeekerEmailExist(jobSeeker)) {
 				notValidMessage = "E-posta adresiniz sistemde kayıtlı, başka e-posta adresi giriniz";
 			} else if (jobSeeker.getPassword() == null) {
-				notValidMessage = "Parolanızı girmeniz gereklidir";
-				} else if (jobSeeker.getPasswordRepeat() == null) {
+				notValidMessage = "Parolanızı girmeniz gereklidir";				
 					notValidMessage = "Parola tekrarını girmeniz gereklidir";
 					} else if (jobSeeker.getFirstName() == null) {
 						notValidMessage = "Adınızı girmeniz gereklidir";
