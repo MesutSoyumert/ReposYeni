@@ -9,9 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +32,9 @@ public class GeneralJobPosition {
 	@Column(name="id",nullable = false)
 	private int id;
 	
-	@Column(name="job_position_name", nullable = false)
+	@Column(name="job_position_name")
+	@NotBlank
+	@NotNull
 	private String jobPositionName;
 
 	@JsonIgnore

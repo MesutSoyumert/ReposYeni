@@ -1,4 +1,4 @@
-package soyumert.hrms.entities.concretes;
+package soyumert.hrms.core.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,12 +31,17 @@ public class BaseUser {
 	private int id;
 	
 	@Column(name="email_address")
+	@Email
+	@NotBlank
+	@NotNull
 	private String emailAddress;
 	
 	@Column(name="password")
+	@NotBlank
+	@NotNull
 	private String password;
 	
-	@Column(name="status")
+	@Column(name="status", columnDefinition = "boolean default false")
 	private boolean status;
 	
 }

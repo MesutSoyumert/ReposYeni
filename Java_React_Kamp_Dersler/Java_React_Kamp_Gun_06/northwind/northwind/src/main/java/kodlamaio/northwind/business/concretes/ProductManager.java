@@ -15,6 +15,7 @@ import kodlamaio.northwind.core.utilities.results.SuccessDataResult;
 import kodlamaio.northwind.core.utilities.results.SuccessResult;
 import kodlamaio.northwind.dataAccess.abstracts.ProductDao;
 import kodlamaio.northwind.entities.concretes.Product;
+import kodlamaio.northwind.entities.dtos.ProductWithCategoryDto;
 
 @Service
 public class ProductManager implements ProductService {
@@ -100,6 +101,12 @@ public class ProductManager implements ProductService {
 		
 		return new SuccessDataResult<List<Product>>
 		(this.productDao.findAll(sort),"Ürünlerin listesi DESC sıralı olarak getirildi");
+	}
+
+	@Override
+	public DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails() {
+		return new SuccessDataResult<List<ProductWithCategoryDto>>
+		(this.productDao.getProductWithCategoryDetails(), "Bütün Ürünler kategori isimleri ile listelendi");
 	}
 
 }

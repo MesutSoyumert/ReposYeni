@@ -66,8 +66,23 @@ public class EmployerManager implements EmployerService {
 
 	@Override
 	public Result update(Employer employer) {
-		this.employerDao.save(employer);
-		return new SuccessResult("İşveren bilgileri güncellendi");
+		
+		String isValidMessage = isEmployerFieldsValid(employer, null);
+		
+		if (isValidMessage == null) {
+			employer.setEmailValidationPerformed(false);
+			employer.setEmailValidationDate(null);
+			employer.setEmailValidationPerformedBySystem(false);;
+			employer.setEmailValidationPerformedBySystemDate(null);;
+			
+			this.employerDao.save(employer);
+			this.sendEmailService.sendEmail(employer.getEmailAddress(),
+													"E-posta doğrulaması", 
+													"Hrms sistemine kayıt için aşağıdaki linkten e-posta doğrulamasını yapınız");
+			return new SuccessResult("İşveren bilgileri güncellendi");
+		} else {
+			 return new ErrorResult(isValidMessage);
+		}
 	}
 
 	@Override
@@ -92,21 +107,11 @@ public class EmployerManager implements EmployerService {
 		
 		notValidMessage = null;
 		
-		if (employer.getEmailAddress() == null) {
-			notValidMessage = "E-posta adresinizi girmeniz gereklidir"; }
-			else if (checkIfEmployerEmailExist(employer)) {
+		if (checkIfEmployerEmailExist(employer)) {
 				notValidMessage = "E-posta adresiniz sistemde kayıtlı, başka e-posta adresi giriniz";
-			} else if (employer.getPassword() == null) {
-				notValidMessage = "Parolanızı girmeniz gereklidir";				
-					} else if (employer.getCompanyName() == null) {
-						notValidMessage = "Şirket Adını girmeniz gereklidir";
-						} else if (employer.getCompanyWebSiteDomain() == null) {
-							notValidMessage = "Web sitesini girmeniz gereklidir";
-							} else if (employer.getCompanyTelephoneNumber() == null) {
-								notValidMessage = "Şirket telefon numarasını girmeniz gereklidir";
-								} else if (!checkIfEmailAddressSameCompanyWebSiteDomain(employer)) {
-									notValidMessage = "E-posta adresiniz şirkete ait olmalıdır, şirkete ait e-posta adresinizi giriniz";
-									} 
+			} else if (!checkIfEmailAddressSameCompanyWebSiteDomain(employer)) {
+				notValidMessage = "E-posta adresiniz şirkete ait olmalıdır, şirkete ait e-posta adresinizi giriniz";
+			  } 
 			
 		return notValidMessage;
 	}

@@ -10,15 +10,17 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import soyumert.hrms.entities.abstracts.Entities;
+import soyumert.hrms.core.entities.BaseUser;
 
 @PrimaryKeyJoinColumn(name="user_id", referencedColumnName = "id")
 @Data
@@ -29,16 +31,21 @@ import soyumert.hrms.entities.abstracts.Entities;
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "job_advertisements"})
 @EqualsAndHashCode(callSuper = false)
-public class Employer extends BaseUser implements Entities {
+public class Employer extends BaseUser {
 	
-	//@NotBlank(message = "Şirket adı alanı boş geçilemez.")
-	@Column(name="company_name", nullable = false)
+	@Column(name="company_name")
+	@NotBlank
+	@NotNull
 	private String companyName;
 	
-	@Column(name="company_web_site_domain",nullable = false)
+	@Column(name="company_web_site_domain")
+	@NotBlank
+	@NotNull
 	private String companyWebSiteDomain;
 	
-	@Column(name="company_telephone_number",nullable = false)
+	@Column(name="company_telephone_number")
+	@NotBlank
+	@NotNull
 	private String companyTelephoneNumber;
 	
 	@Column(name="is_email_validation_performed", columnDefinition = "boolean default false")

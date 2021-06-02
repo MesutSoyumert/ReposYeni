@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +31,8 @@ public class JobAdvertisement {
 	private int id;
 	
 	@Column(name = "job_definiton")
+	@NotBlank
+	@NotNull
 	private String jobDefiniton;
 		
 	@Column(name = "salary_scale_min")
@@ -37,6 +42,8 @@ public class JobAdvertisement {
 	private int salaryScaleMax;
 	
 	@Column(name = "number_of_open_position")
+	@NotBlank
+	@NotNull
 	private int numberOfOpenPosition;
 	
 	@Column(name = "date_of_application_deadline")

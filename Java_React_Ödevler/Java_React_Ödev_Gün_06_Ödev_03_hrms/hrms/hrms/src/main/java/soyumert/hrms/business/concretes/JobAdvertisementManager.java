@@ -90,23 +90,13 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		
 		notValidMessage = null;
 		
-		if (jobAdvertisement.getJobDefiniton() == null) {
-			notValidMessage = "İş tanımını girmeniz gereklidir"; }
-			else if (jobAdvertisement.getNumberOfOpenPosition() == 0) {
-				notValidMessage = "İş pozisyon adedini girmeniz gereklidir";				
-					} else if (jobAdvertisement.getCitiesOfTurkey().getId() == 0) {
-						notValidMessage = "İş pozisyonunun şehrini girmeniz gereklidir";
-						} else if (jobAdvertisement.getGeneralJobPosition().getId() == 0) {
-							notValidMessage = "Genel iş pozisyonunu girmeniz gereklidir";
-							} else if (jobAdvertisement.getEmployer().getId() == 0) {
-								notValidMessage = "İşveren no girmeniz gereklidir";
-								} else if (checkIfEmployerExist(jobAdvertisement.getEmployer().getId()) == false) {
-									notValidMessage = "Girdiğiniz İşveren no kayıtlarımızda mevcut değil, mevcut bir İşveren no giriniz";
-									} else if (checkIfCitiesOfTurkeyExist(jobAdvertisement.getCitiesOfTurkey().getId()) == false) {
-										notValidMessage = "Girdiğiniz şehir no kayıtlarımızda mevcut değil, mevcut bir şehir no giriniz";
-										} else if (checkIfGeneralJobPositionExist(jobAdvertisement.getGeneralJobPosition().getId()) == false) {
-											notValidMessage = "Girdiğiniz genel iş pozisyon no kayıtlarımızda mevcut değil, mevcut bir genel iş pozisyon no giriniz";
-											}
+		if (checkIfEmployerExist(jobAdvertisement.getEmployer().getId()) == false) {
+			notValidMessage = "Girdiğiniz İşveren no kayıtlarımızda mevcut değil, mevcut bir İşveren no giriniz";
+			} else if (checkIfCitiesOfTurkeyExist(jobAdvertisement.getCitiesOfTurkey().getId()) == false) {
+				notValidMessage = "Girdiğiniz şehir no kayıtlarımızda mevcut değil, mevcut bir şehir no giriniz";
+				} else if (checkIfGeneralJobPositionExist(jobAdvertisement.getGeneralJobPosition().getId()) == false) {
+					notValidMessage = "Girdiğiniz genel iş pozisyon no kayıtlarımızda mevcut değil, mevcut bir genel iş pozisyon no giriniz";
+					}
 			
 		return notValidMessage;
 	}
