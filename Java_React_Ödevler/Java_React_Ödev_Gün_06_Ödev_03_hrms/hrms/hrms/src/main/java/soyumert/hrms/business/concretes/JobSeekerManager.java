@@ -1,12 +1,16 @@
 package soyumert.hrms.business.concretes;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import soyumert.hrms.business.abstracts.JobSeekerService;
+import soyumert.hrms.core.adapters.CandidateUploadImageService;
 import soyumert.hrms.core.utilities.results.DataResult;
 import soyumert.hrms.core.utilities.results.ErrorResult;
 import soyumert.hrms.core.utilities.results.Result;
@@ -21,12 +25,17 @@ import soyumert.hrms.entities.concretes.JobSeeker;
 
 	private JobSeekerDao jobSeekerDao;
 	private SendEmailService sendEmailService;
+	private CandidateUploadImageService candidateUploadImageService;
 	
 	@Autowired
-	public JobSeekerManager(JobSeekerDao jobSeekerDao, SendEmailService sendEmailService) {
+	public JobSeekerManager(JobSeekerDao jobSeekerDao, 
+							SendEmailService sendEmailService,
+							CandidateUploadImageService candidateUploadImageService
+			) {
 	super();
 	this.jobSeekerDao = jobSeekerDao;
 	this.sendEmailService = sendEmailService;
+	this.candidateUploadImageService=candidateUploadImageService;
 	}
 	
 	@Override
@@ -127,4 +136,18 @@ import soyumert.hrms.entities.concretes.JobSeeker;
 		this.jobSeekerDao.save(jobSeeker);
 		return new SuccessResult("İş arayan e-posta doğrulaması gerçekleştirildi");
 	}
+
+	@Override
+	public Result addImage(int userId, MultipartFile file) throws IOException {
+        Map result=candidateUploadImageService.uploadImage(file);
+        JobSeeker jobSeeker=jobSeekerDao.getOne(userId);
+        jobSeeker.setJobSeekerPhotoLink(result.get("url").toString());
+        jobSeekerDao.save(jobSeeker);
+        return new SuccessResult("Fotoğraf ekleme işlem başarılı olarak gerçekleştirildi");
+    }
+
+	@Override
+	public DataResult<JobSeeker> getByUserId(int userId) {
+        return new SuccessDataResult<JobSeeker>(jobSeekerDao.getOne(userId));
+    }
 }

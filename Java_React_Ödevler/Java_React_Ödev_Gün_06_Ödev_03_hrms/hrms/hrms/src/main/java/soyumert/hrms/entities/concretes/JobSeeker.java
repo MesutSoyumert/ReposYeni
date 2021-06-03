@@ -1,14 +1,19 @@
 package soyumert.hrms.entities.concretes;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -23,9 +28,10 @@ import soyumert.hrms.core.entities.BaseUser;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = false)
 @Table(name="job_seekers")
-public class JobSeeker extends BaseUser {
+@JsonIgnoreProperties({"hibernateLazyInitializer","job_seeker_cvs"})
+public class JobSeeker extends BaseUser{
 	
 	@Column(name="first_name")
 	@NotBlank
@@ -53,5 +59,23 @@ public class JobSeeker extends BaseUser {
 	
 	@Column(name="email_validation_date", columnDefinition = "Date default CURRENT_DATE")
 	private Date emailValidationDate;
+	
+	@Column(name = "job_seeker_photo_link")
+	private String jobSeekerPhotoLink;
 		
+	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+	private List<JobSeekerCv> jobSeekerCvs;
+	
+	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+	private List<JobSeekerLanguage> jobSeekerLanguages;
+	
+	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+	private List<JobSeekerGraduatedSchool> jobSeekerGraduatedSchools;
+	
+	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+	private List<JobSeekerWorkExperience> jobSeekerWorkExperiences;
+	
+	@OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
+	private List<JobSeekerProgrammingLanguage> jobSeekerProgrammingLanguages;
+	
 }

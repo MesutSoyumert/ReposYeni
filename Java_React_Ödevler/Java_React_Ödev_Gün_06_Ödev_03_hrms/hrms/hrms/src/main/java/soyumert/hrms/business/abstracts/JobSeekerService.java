@@ -1,6 +1,9 @@
 package soyumert.hrms.business.abstracts;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import soyumert.hrms.core.utilities.results.DataResult;
 import soyumert.hrms.core.utilities.results.Result;
@@ -17,4 +20,8 @@ public interface JobSeekerService {
 	Result delete(JobSeeker jobSeeker);
 	
 	Result update(JobSeeker jobSeeker);
+	
+	DataResult<JobSeeker> getByUserId(int userId);
+	
+	Result addImage(int userId, MultipartFile file) throws IOException;
 }
