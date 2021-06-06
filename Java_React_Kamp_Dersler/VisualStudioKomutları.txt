@@ -1,0 +1,11 @@
+npm install
+npm run dev
+
+extensions menüsünden
+Auto Import
+Auto Rename Tag
+Bracket Pair Color
+Material Icon Theme
+Path Intellisense
+
+ES7 React/Redux

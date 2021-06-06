@@ -1,0 +1,52 @@
+Projeyi çalıştırma
+ng serve --open
+
+Komponent oluşturma
+ng g component kategori
+
+Bootstrap son version yükleme
+npm install bootstrap@5.0.0-beta3
+
+src/app/services üzerinde sağ klik Open In Integrated Terminal aç
+ng g service product
+
+istenilen porttan projeyi çalıştırmak için
+ng serve --open --port 4201
+
+18. gün 2. ders değişenler
+app-routing.module.ts
+category.component.html
+category.component.ts
+
+
+npm install jquery
+angular.json dosyasında script başlığına aşağıdaki satırları ekle
+"./node_modules/jquery/dist/jquery.min.js",
+"./node_modules/bootstrap/dist/js/bootstrap.min.js"
+
+environment.ts'ye apiurl ve baseURL leri ekle
+apiURL:'http://localhost:24812/api/',
+baseURL: 'http://localhost:4200/'
+
+npm install ngx-toastr
+npm install @angular/animations
+angular.json içine 1. styles aşağıdaki gibi olsun
+
+"styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-tosatr/tosatr.css",
+              "src/styles.css"
+            ],
+
+app.module.ts içine
+import {ToastrModule} from "ngx-toastr"
+ve 
+importun altına 
+ToastrModule.forRoot({
+      positionClass:"toast-bottom-right"
+    })
+
+ekle
+
+
+
