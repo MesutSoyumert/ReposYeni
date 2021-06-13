@@ -119,3 +119,6 @@ Tüm React Componentlerinizi sadece tasarımsal olarak oluşturunuz.
 Tüm isterler için JavaScript servislerini ve axios kodlarını yazınız. Bunları React componentlerine bağlamayınız. (Post,Put,Delete araştırma)
 Sadece listeleme olan isterleri JS servisinizle bağlayınız.
 
+Uml diyagramı aşağıdaki linkte bulunmaktadır.
+
+[Java_React_Odev_Gun_11_01_UmlDiagram.docx](https://github.com/MesutSoyumert/ReposYeni/files/6643849/Java_React_Odev_Gun_11_01_UmlDiagram.docx)
